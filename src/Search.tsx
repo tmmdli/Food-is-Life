@@ -58,8 +58,8 @@ const Search = () => {
           <View style={styles.titlecontainer} key={index}>
             <TouchableOpacity style={styles.downbutton}>
               <Image style={styles.image} source={{uri: item.strMealThumb}} />
+              <Text style={styles.foodtext}>{item.strMeal}</Text>
             </TouchableOpacity>
-            <Text style={styles.foodtext}>{item.strMeal}</Text>
             <TouchableOpacity onPress={() => console.log('')}>
               <NoteIcon
                 width={25}
@@ -67,7 +67,7 @@ const Search = () => {
                 position={'absolute'}
                 left={120}
                 right={0}
-                top={-150}
+                top={-130}
                 bottom={0}
               />
             </TouchableOpacity>
@@ -159,6 +159,5 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: 'black',
     alignSelf: 'center',
-    bottom: 20,
   },
 });
