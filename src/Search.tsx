@@ -35,6 +35,7 @@ const Search = () => {
       return (strMeal);
      }
 
+
   };
   return (
     <View>
@@ -52,13 +53,13 @@ const Search = () => {
       </View>
       <View style={styles.Searchcontainer}>
         <TextInput
-          style={styles.textinput}
+          style={styles.texting}
           value={value}
           placeholder=" Search for name..."
           placeholderTextColor="#2C2F38"
           onChangeText={onChangeText}
         />
-        <TouchableOpacity onPress={onGetData}>
+        <TouchableOpacity onPress={onGetData} >
           <SearchIcon width={24} height={24} />
         </TouchableOpacity>
       </View>
@@ -97,7 +98,8 @@ const styles = StyleSheet.create({
   childcontainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 120,
+    justifyContent:'space-between',
+    width:'60%',
   },
   image: {
     width: 120,
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 25,
   },
-  textinput: {
+  texting: {
     width: 332,
     height: 50,
     backgroundColor: '#F4E4CD',
