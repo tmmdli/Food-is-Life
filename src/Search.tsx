@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -27,6 +27,15 @@ const Search = () => {
   const onChangeText = (text: string) => {
     setValue(text);
   };
+  const meal = strMeal => {
+    if ( strMeal.length > 30 ){
+      return (strMeal.substring(0,30) + '...');
+    }
+    else {
+      return (strMeal);
+     }
+
+  };
   return (
     <View>
       <View style={styles.childcontainer}>
@@ -43,7 +52,7 @@ const Search = () => {
       </View>
       <View style={styles.Searchcontainer}>
         <TextInput
-          style={styles.texting}
+          style={styles.textinput}
           value={value}
           placeholder=" Search for name..."
           placeholderTextColor="#2C2F38"
@@ -58,7 +67,7 @@ const Search = () => {
           <View style={styles.titlecontainer} key={index}>
             <TouchableOpacity style={styles.downbutton}>
               <Image style={styles.image} source={{uri: item.strMealThumb}} />
-              <Text style={styles.foodtext}>{item.strMeal}</Text>
+              <Text style={styles.foodtext}>{ meal(item.strMeal)}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => console.log('')}>
               <NoteIcon
@@ -128,7 +137,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 25,
   },
-  texting: {
+  textinput: {
     width: 332,
     height: 50,
     backgroundColor: '#F4E4CD',
