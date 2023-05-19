@@ -18,3 +18,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 });
+ijnuh9k0oijujk0oşmnyhjiçpmiuj
+
