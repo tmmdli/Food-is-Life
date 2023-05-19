@@ -15,7 +15,7 @@ const apiUrl = 'www.themealdb.com/api/json/v1/1/random.php'; //tesadufi yemek ax
 // const apiUrl = 'www.themealdb.com/api/json/v1/1/list.php?a=list'; //erazi
 // const apiUrl = 'www.themealdb.com/api/json/v1/1/list.php?i=list'; //terkibi
 const FoodHome = () => {
-  const [food, setFood] = useState('null');
+  const [food, setFood] = useState('');
 
   const fetchUser = async () => {
     const response = await fetch(apiUrl);
@@ -25,7 +25,7 @@ const FoodHome = () => {
   };
   useEffect(() => {
     fetchUser()
-      .then(userData => setUser(userData))
+      .then(userData =>setFood (userData))
       .catch(error => console.error(error));
   }, []);
 
@@ -48,7 +48,6 @@ const FoodHome = () => {
         </View>
         <View style={styles.random}>
           <View style={styles.random1}>
-            <Text source={{uri: food}} />{' '}
           </View>
           <View style={styles.random2} />
         </View>
