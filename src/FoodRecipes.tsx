@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableOpacityComponent, View } from "react-native";
 import VectorIcon from './assets/icons/vector.svg';
 import IconIcon from './assets/icons/icon.svg';
 import KaloriIcon from './assets/icons/kalori.svg';
@@ -11,12 +11,12 @@ const FoodRecipes = () => {
     <View style={styles.container}>
       <View style={styles.button}>
         <TouchableOpacity onPress={() => console.log('')}
-        style={{right:70}}>
+          style={{ right: 70 }}>
           <VectorIcon width={28} height={28} />
         </TouchableOpacity>
-        <Text style={styles.text}>Banana Pancakes</Text>
+        <Text style={styles.recipestext}>Banana Pancakes</Text>
         <TouchableOpacity onPress={() => console.log('')}
-        style={{left:70}}>
+          style={{ left: 70 }}>
           <IconIcon width={28} height={28} />
         </TouchableOpacity>
       </View>
@@ -26,33 +26,34 @@ const FoodRecipes = () => {
           style={styles.pankek}
         />
         <View style={styles.button2}>
-        <TouchableOpacity onPress={() => console.log('')}
-        >
-          <TimeIcon width={28} height={28} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('')}
-        >
-          <SebetIcon width={28} height={28} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('')}
-        >
-          <KaloriIcon width={28} height={28} />
-        </TouchableOpacity>
-       
+          <TouchableOpacity onPress={() => console.log('')}
+          >
+            <TimeIcon width={28} height={28} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('')}
+          >
+            <SebetIcon width={28} height={28} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('')}
+          >
+            <KaloriIcon width={28} height={28} />
+          </TouchableOpacity>
+
         </View>
       </View>
 
       <ScrollView>
-        
-        <View style={styles.button3}>
-            
+
+        <TouchableOpacity style={styles.recipesscreen}>
           <Image
             source={require('./assets/images/line.png')}
             style={styles.line}
           />
-          <Text style={styles.text1}>Ingredients</Text>
-          <Text style={styles.text2}>Directions</Text>
-        </View>
+          <Text style={styles.ingtext}>Ingredients</Text>
+          <Text style={styles.ingredients} />
+          <Text style={styles.directext}>Directions</Text>
+          <Text style={styles.directions}></Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );
@@ -67,56 +68,60 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 20,
     flexDirection: 'row',
-   
   },
-  text: {
+  recipestext: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#FFFFFF',
   },
   pankek: {
-
   },
   rectangle: {
     marginTop: 40,
   },
   line: {
     alignSelf: 'center',
-    top:20,
-  
-    
+    marginTop: 15,
   },
-  button2:{
- flexDirection:'row',
- justifyContent:'space-between',
- top: 20,
-
- 
+  button2: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
   },
-  button3: {
-    width: 400,
-    height: 500,
+  recipesscreen: {
+    width: 428,
+    height: 562,
     backgroundColor: '#F4E4CD',
-    borderRadius: 40,
+    borderRadius: 50,
     marginTop: 30,
-  
+    right:17,
   },
-  text1:{
-fontSize: 24,
-top:30,
-left:40,
-fontWeight:'bold',
-color:'#000000'
-  },
-  text2:{
+  ingtext: {
     fontSize: 24,
-   top:100,
-    left:40,
-    fontWeight:'bold',
-    color:'#000000',
-   
-    
-      },
+    marginTop: 25,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginLeft:20,
+  },
+  ingredients: {
+    borderWidth: 1,
+    height: 150,
+    width: 300,
+    alignSelf: 'center'
+  },
+  directext: {
+    fontSize: 24,
+    marginTop: 10,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginLeft:20,
+  },
+  directions: {
+    borderWidth: 1,
+    height: 150,
+    width: 300,
+    alignSelf: 'center'
+  },
 });
 
 export default FoodRecipes;
