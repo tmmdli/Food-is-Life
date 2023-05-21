@@ -2,11 +2,7 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 
 const AppButton = ({style, icon, onPress}) => {
-  return (
-    <TouchableOpacity onPress={onPress}>
-      {icon}
-    </TouchableOpacity>
-  );
+  return <TouchableOpacity onPress={onPress}>{icon}</TouchableOpacity>;
 };
 
 export default AppButton;

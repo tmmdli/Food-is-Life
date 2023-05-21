@@ -10,93 +10,144 @@ import {
 import AppButton from './AppButton';
 import BurgerIcon from './assets/icons/Burger.svg';
 import VectorIcon from './assets/icons/Vector.svg';
-const apiUrl = 'www.themealdb.com/api/json/v1/1/random.php'; //tesadufi yemek axtarin
-// const apiUrl = 'www.themealdb.com/api/json/v1/1/list .php?c=list'; //kategoriya
-// const apiUrl = 'www.themealdb.com/api/json/v1/1/list.php?a=list'; //erazi
-// const apiUrl = 'www.themealdb.com/api/json/v1/1/list.php?i=list'; //terkibi
+import EllipseIcon from './assets/icons/Ellipse.svg';
+//
 const FoodHome = () => {
-  const [food, setFood] = useState('');
-
-  const fetchUser = async () => {
-    const response = await fetch(apiUrl);
+  const [food, setFood] = useState([]);
+  // const [meals, setMeals] = useState([]);
+  const reqwest = async () => {
+    const response = await fetch(
+      'https://www.themealdb.com/api/json/v1/1/random.php',
+    );
     const data = await response.json();
-
-    return data.results[0];
+    console.log(data);
+    setFood(data.meals);
   };
+  // console.log(food);
+
   useEffect(() => {
-    fetchUser()
-      .then(userData =>setFood (userData))
-      .catch(error => console.error(error));
+    reqwest();
   }, []);
+  const Categories = () => {
+    console.log('Categories');
+  };
+  const Area = () => {
+    console.log('Area');
+  };
+  const Ingredients = () => {
+    console.log('Ingredients');
+  };
 
   return (
-    <View>
-      <ScrollView>
-        <View style={styles.container}>
+    <SafeAreaView style={styles.Header}>
+      <View>
+        <ScrollView>
+          <View style={styles.container}>
+            <View>
+              <AppButton icon={<BurgerIcon />} />
+            </View>
+            <View style={styles.containerhader}>
+              <Text style={styles.hader}>Food Recipes</Text>
+            </View>
+          </View>
+          <View style={styles.logo}>
+            <Image source={require('./assets/images/yemek.png')} />
+          </View>
           <View>
-            <AppButton icon={<BurgerIcon />} />
+            <Text style={styles.RandomText}>Random Meals</Text>
           </View>
-          <View style={styles.containerhader}>
-            <Text style={styles.hader}>Food Recipes</Text>
+          <View style={styles.random}>
+            {food?.map((item, index) => (
+              <View style={styles.random1} key={index}>
+                <Image
+                  style={{
+                    width: 140,
+                    height: 120,
+                    borderRadius: 20,
+                    alignItems: 'center',
+                  }}
+                  source={{uri: item.strMealThumb}}
+                />
+
+                <Text style={styles.random1text}>{item.strMeal}</Text>
+                <View>
+                  <Text style={styles.detalText}>See Details</Text>
+                </View>
+              </View>
+            ))}
+            {food?.map((item, index) => (
+              <View style={styles.random2} key={index}>
+                <Image
+                  style={{
+                    width: 140,
+                    height: 120,
+                    borderRadius: 20,
+                    alignItems: 'center',
+                  }}
+                  source={{uri: item.strMealThumb}}
+                />
+
+                <Text style={styles.random2text}>{item.strMeal}</Text>
+                <Text style={styles.detalText}>See Details</Text>
+              </View>
+            ))}
           </View>
-        </View>
-        <View style={styles.logo}>
-          <Image source={require('./assets/images/yemek.png')} />
-        </View>
-        <View>
-          <Text style={styles.RandomText}>Random Meals</Text>
-        </View>
-        <View style={styles.random}>
-          <View style={styles.random1}>
-          </View>
-          <View style={styles.random2} />
-        </View>
-        <View>
-          <View style={styles.categoriheder}>
-            <Text style={styles.catigoriaText}>Categories</Text>
-            <View style={styles.AllButton}>
-              <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
-                <AppButton icon={<VectorIcon height={28} width={28} />} />
+          <View>
+            <View style={styles.categoriheder}>
+              <Text style={styles.catigoriaText}>Categories</Text>
+              <View style={styles.AllButton}>
+                <Text style={styles.Alltext}>All</Text>
+                <View style={{justifyContent: 'center'}}>
+                  <AppButton
+                    icon={<VectorIcon height={28} width={28} />}
+                    onPress={Categories}
+                  />
+                </View>
               </View>
             </View>
-          </View>
-          <View style={styles.blok}>
-            <View style={styles.blok1} />
-            <View style={styles.blok2} />
-            <View style={styles.blok3} />
-          </View>
-          <View style={styles.categoriheder}>
-            <Text style={styles.catigoriaText}>Area</Text>
-            <View style={styles.AllButton}>
-              <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
-                <AppButton icon={<VectorIcon height={28} width={28} />} />
+            <View style={styles.blok}>
+              <View style={styles.blok1} />
+              <View style={styles.blok2} />
+              <View style={styles.blok3} />
+            </View>
+            <View style={styles.categoriheder}>
+              <Text style={styles.catigoriaText}>Area</Text>
+              <View style={styles.AllButton}>
+                <Text style={styles.Alltext}>All</Text>
+                <View style={{justifyContent: 'center'}}>
+                  <AppButton
+                    icon={<VectorIcon height={28} width={28} />}
+                    onPress={Area}
+                  />
+                </View>
               </View>
             </View>
-          </View>
-          <View style={styles.blok}>
-            <View style={styles.blok1} />
-            <View style={styles.blok2} />
-            <View style={styles.blok3} />
-          </View>
-          <View style={styles.categoriheder}>
-            <Text style={styles.catigoriaText}>Ingredients</Text>
-            <View style={styles.AllButton}>
-              <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
-                <AppButton icon={<VectorIcon height={28} width={28} />} />
+            <View style={styles.blok}>
+              <View style={styles.blok1} />
+              <View style={styles.blok2} />
+              <View style={styles.blok3} />
+            </View>
+            <View style={styles.categoriheder}>
+              <Text style={styles.catigoriaText}>Ingredients</Text>
+              <View style={styles.AllButton}>
+                <Text style={styles.Alltext}>All</Text>
+                <View style={{justifyContent: 'center'}}>
+                  <AppButton
+                    icon={<VectorIcon height={28} width={28} />}
+                    onPress={Ingredients}
+                  />
+                </View>
               </View>
             </View>
+            <View style={styles.blok}>
+              <View style={styles.blok1} />
+              <View style={styles.blok2} />
+              <View style={styles.blok3} />
+            </View>
           </View>
-          <View style={styles.blok}>
-            <View style={styles.blok1} />
-            <View style={styles.blok2} />
-            <View style={styles.blok3} />
-          </View>
-        </View>
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -104,8 +155,12 @@ export default FoodHome;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    // backgroundColor: '#E7DFDF',
+    backgroundColor: 'red',
     marginTop: 15,
+  },
+  Header: {
+    flex: 1,
+    backgroundColor: 'red',
   },
   hader: {
     fontSize: 26,
@@ -139,12 +194,32 @@ const styles = StyleSheet.create({
     width: 140,
     height: 240,
     borderRadius: 20,
+    gap: 10,
+    // justifyContent: 'center',
+  },
+  random1text: {
+    fontSize: 22,
+    fontWeight: '900',
+    color: 'black',
   },
   random2: {
     backgroundColor: 'white',
     width: 140,
     height: 240,
     borderRadius: 20,
+    gap: 10,
+    // justifyContent: 'center',
+  },
+  random2text: {
+    fontSize: 22,
+    fontWeight: '900',
+    color: 'black',
+  },
+  detalText: {
+    fontSize: 13,
+    fontWeight: '400',
+    color: '#000000',
+    marginLeft: 10,
   },
   catigoriaText: {
     fontSize: 22,
@@ -172,7 +247,7 @@ const styles = StyleSheet.create({
   },
   blok1: {
     backgroundColor: 'white',
-    width: 100,
+    width: 110,
     height: 50,
     borderRadius: 10,
   },
