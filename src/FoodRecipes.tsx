@@ -42,7 +42,8 @@ const FoodRecipes = () => {
         </View>
       </View>
 
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={styles.scroll}>
 
         <TouchableOpacity style={styles.recipesscreen}>
           <Image
@@ -50,9 +51,16 @@ const FoodRecipes = () => {
             style={styles.line}
           />
           <Text style={styles.ingtext}>Ingredients</Text>
-          <Text style={styles.ingredients} />
+          <View style={styles.ingredientsContainer}>
+            <Text style={styles.ingredients} />
+          </View>
           <Text style={styles.directext}>Directions</Text>
-          <Text style={styles.directions}></Text>
+          <View style={styles.directionsContainer}>
+         
+              <Text style={styles.directions}></Text>
+            
+          </View>
+          
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -68,6 +76,9 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 20,
     flexDirection: 'row',
+  },
+  scroll: {
+    flexGrow: 1,
   },
   recipestext: {
     fontSize: 24,
@@ -94,33 +105,49 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4E4CD',
     borderRadius: 50,
     marginTop: 30,
-    right:17,
+    right: 17,
   },
   ingtext: {
     fontSize: 24,
     marginTop: 25,
     fontWeight: 'bold',
     color: '#000000',
-    marginLeft:20,
+    marginLeft: 20,
   },
-  ingredients: {
+  ingredientsContainer: {
     borderWidth: 1,
     height: 150,
     width: 300,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  ingredients: {
+    fontSize: 16,
+    color: '#000000',
   },
   directext: {
     fontSize: 24,
     marginTop: 10,
     fontWeight: 'bold',
     color: '#000000',
-    marginLeft:20,
+    marginLeft: 20,
   },
-  directions: {
+  directionsContainer: {
     borderWidth: 1,
     height: 150,
     width: 300,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    fontSize: 30,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+ 
+  },
+  directions: {
+    fontSize: 16,
+    textAlign:'auto',
+    color: '#000000',
+
   },
 });
 
