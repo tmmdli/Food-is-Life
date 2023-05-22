@@ -53,40 +53,37 @@ const Search = () => {
       </View>
       <View style={styles.Searchcontainer}>
         <TextInput
-          style={styles.texting}
+          style={styles.textinput}
           value={value}
           placeholder=" Search for name..."
           placeholderTextColor="#2C2F38"
           onChangeText={onChangeText}
         />
-        <TouchableOpacity onPress={onGetData} >
+        <TouchableOpacity style={styles.search}  onPress={onGetData} >
           <SearchIcon width={24} height={24} />
         </TouchableOpacity>
       </View>
       <ScrollView ref={scrollRef}>
-        {food?.map((item, index) => (
-          <View style={styles.titlecontainer} key={index}>
-            <TouchableOpacity style={styles.downbutton}>
-              <Image style={styles.image} source={{uri: item.strMealThumb}} />
-              <Text style={styles.foodtext}>{ meal(item.strMeal)}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => console.log('')}>
-              <NoteIcon
-                width={25}
-                height={24}
-                position={'absolute'}
-                left={120}
-                right={0}
-                top={-130}
-                bottom={0}
-              />
-            </TouchableOpacity>
-          </View>
-        ))}
+        {food === null || food.length === 0 ? (
+          <Text style={styles.noResultsText}>Food not found !</Text>
+        ) : (
+          food.map((item, index) => (
+            <View style={styles.titlecontainer} key={index}>
+              <TouchableOpacity style={styles.downbutton}>
+                <Image style={styles.image} source={{ uri: item.strMealThumb }} />
+                <Text style={styles.foodtext}>{meal(item.strMeal)}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.noteicon} >
+                <NoteIcon width={25} height={24} />
+              </TouchableOpacity>
+            </View>
+          ))
+        )}
       </ScrollView>
     </View>
   );
 };
+
 export default Search;
 const styles = StyleSheet.create({
   textSearch: {
@@ -135,11 +132,10 @@ const styles = StyleSheet.create({
   Searchcontainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: -35,
     marginTop: 20,
     marginLeft: 25,
   },
-  texting: {
+  textinput: {
     width: 332,
     height: 50,
     backgroundColor: '#F4E4CD',
@@ -162,8 +158,7 @@ const styles = StyleSheet.create({
   },
   titlecontainer: {
     alignItems: 'center',
-    marginTop: 30,
-    gap: -10,
+    marginTop: 25,
   },
   foodtext: {
     fontSize: 18,
@@ -171,4 +166,18 @@ const styles = StyleSheet.create({
     color: 'black',
     alignSelf: 'center',
   },
+  noteicon:{
+    position:'absolute',
+    right:40,
+    top:12,
+  },
+  search:{
+    right:40,
+  },
+  noResultsText:{
+    fontSize:30,
+    color:'white',
+    fontWeight:'700',
+    alignSelf:'center',
+  }
 });
