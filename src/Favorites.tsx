@@ -1,7 +1,11 @@
-import React from "react"; 
+import React, { useEffect } from "react"; 
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import BackIcon from './assets/icons/back.svg' 
+import SplashScreen from "react-native-splash-screen";
 const Favorites = () => { 
+    useEffect(()=>{
+        SplashScreen.hide();
+    }, [] )
     return ( 
         <View style={styles.container} > 
             <View style={styles.header}> 

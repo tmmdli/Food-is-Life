@@ -9,6 +9,7 @@ const App = () => {
       <Favorites />
       {/* <Categories/> */}
     
+    
     </SafeAreaView>
   );
 };

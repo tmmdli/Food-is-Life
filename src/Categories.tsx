@@ -2,6 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import BackIcon from './assets/icons/back.svg' 
 const Categories = () => { 
+    
     return ( 
         <View style={styles.container} > 
             <View style={styles.header}> 

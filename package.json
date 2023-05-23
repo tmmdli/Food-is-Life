@@ -12,6 +12,7 @@
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.71.8",
+    "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^13.9.0"
   },
   "devDependencies": {
