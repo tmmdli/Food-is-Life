@@ -12,11 +12,16 @@ import {} from 'react-test-renderer';
 import VectorIcon from './Vector.svg';
 import NoteIcon from './Note.svg';
 import SearchIcon from './Search.svg';
+import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 const apiUrl = 'http://www.themealdb.com/api/json/v1/1/search.php?s=';
+
 
 const Search = () => {
   const [value, setValue] = useState('');
   const [food, setFood] = useState([]);
+  const navigation = useNavigation();
   const scrollRef = useRef<ScrollView>(null);
   const onGetData = async () => {
     const response = await fetch(apiUrl + value, {method: 'GET'});
@@ -37,10 +42,13 @@ const Search = () => {
 
 
   };
+  const handleBackPress = () => {
+   navigation.goBack();
+  };
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <View style={styles.childcontainer}>
-        <TouchableOpacity onPress={() => console.log('')}>
+        <TouchableOpacity onPress={handleBackPress}>
           <VectorIcon width={25} height={24} />
         </TouchableOpacity>
         <Text style={styles.textSearch}>Search</Text>
@@ -73,19 +81,23 @@ const Search = () => {
                 <Image style={styles.image} source={{ uri: item.strMealThumb }} />
                 <Text style={styles.foodtext}>{meal(item.strMeal)}</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.noteicon} >
+              <TouchableOpacity  style={styles.noteicon} >
                 <NoteIcon width={25} height={24} />
               </TouchableOpacity>
             </View>
           ))
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default Search;
 const styles = StyleSheet.create({
+  container:{
+     backgroundColor: 'rgba(8 ,18 , 51,  0.54)',
+     flex:1,
+  },
   textSearch: {
     alignSelf: 'center',
     color: '#F8F2F2',
@@ -133,7 +145,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: 20,
-    marginLeft: 25,
+    marginLeft: 20,
+    justifyContent:'center',
   },
   textinput: {
     width: 332,
@@ -176,8 +189,8 @@ const styles = StyleSheet.create({
   },
   noResultsText:{
     fontSize:30,
-    color:'white',
+    color:'#F8F2F2',
     fontWeight:'700',
     alignSelf:'center',
-  }
+  },
 });

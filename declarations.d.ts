@@ -4,3 +4,7 @@ declare module '*.svg' {
   const content: React.FC<SvgProps>;
   export default content;
 }
+module.exports = {
+    presets: ['module:metro-react-native-babel-preset'],
+  };
+
