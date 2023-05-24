@@ -1,19 +1,16 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {View, Image, Text, StyleSheet, ScrollView} from 'react-native';
 import AppButton from './AppButton';
 import BurgerIcon from './assets/icons/Burger.svg';
 import VectorIcon from './assets/icons/Vector.svg';
 import EllipseIcon from './assets/icons/Ellipse.svg';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
 //
-const FoodHome = () => {
+const FoodHome = ({route: {params}}) => {
   const [food, setFood] = useState([]);
+  const navigation = useNavigation();
   // const [meals, setMeals] = useState([]);
   const reqwest = async () => {
     const response = await fetch(
@@ -40,113 +37,116 @@ const FoodHome = () => {
 
   return (
     <SafeAreaView style={styles.Header}>
-      <View>
-        <ScrollView>
-          <View style={styles.container}>
-            <View>
-              <AppButton icon={<BurgerIcon />} />
-            </View>
-            <View style={styles.containerhader}>
-              <Text style={styles.hader}>Food Recipes</Text>
-            </View>
+      <ScrollView>
+        <View style={styles.container}>
+          <AppButton
+            onPress={() => {
+              navigation.toggleDrawer();
+            }}
+            icon={<BurgerIcon />}
+            // style={undefined}
+          />
+          {/* </View> */}
+          <View style={styles.containerhader}>
+            <Text style={styles.hader}>Food Recipes</Text>
           </View>
-          <View style={styles.logo}>
-            <Image source={require('./assets/images/yemek.png')} />
-          </View>
-          <View>
-            <Text style={styles.RandomText}>Random Meals</Text>
-          </View>
-          <View style={styles.random}>
-            {food?.map((item, index) => (
-              <View style={styles.random1} key={index}>
-                <Image
-                  style={{
-                    width: 140,
-                    height: 120,
-                    borderRadius: 20,
-                    alignItems: 'center',
-                  }}
-                  source={{uri: item.strMealThumb}}
-                />
+        </View>
+        <View style={styles.logo}>
+          <Image source={require('./assets/images/yemek.png')} />
+        </View>
+        <View>
+          <Text style={styles.RandomText}>Random Meals</Text>
+        </View>
+        <View style={styles.random}>
+          {food?.map((item, index) => (
+            <View style={styles.random1} key={index}>
+              <Image
+                style={{
+                  width: 140,
+                  height: 120,
+                  borderRadius: 20,
+                  alignItems: 'center',
+                }}
+                source={{uri: item.strMealThumb}}
+              />
 
-                <Text style={styles.random1text}>{item.strMeal}</Text>
-                <View>
-                  <Text style={styles.detalText}>See Details</Text>
-                </View>
-              </View>
-            ))}
-            {food?.map((item, index) => (
-              <View style={styles.random2} key={index}>
-                <Image
-                  style={{
-                    width: 140,
-                    height: 120,
-                    borderRadius: 20,
-                    alignItems: 'center',
-                  }}
-                  source={{uri: item.strMealThumb}}
-                />
-
-                <Text style={styles.random2text}>{item.strMeal}</Text>
+              <Text style={styles.random1text}>{item.strMeal}</Text>
+              <View>
                 <Text style={styles.detalText}>See Details</Text>
               </View>
-            ))}
-          </View>
-          <View>
-            <View style={styles.categoriheder}>
-              <Text style={styles.catigoriaText}>Categories</Text>
-              <View style={styles.AllButton}>
-                <Text style={styles.Alltext}>All</Text>
-                <View style={{justifyContent: 'center'}}>
-                  <AppButton
-                    icon={<VectorIcon height={28} width={28} />}
-                    onPress={Categories}
-                  />
-                </View>
+            </View>
+          ))}
+          {food?.map((item, index) => (
+            <View style={styles.random2} key={index}>
+              <Image
+                style={{
+                  width: 140,
+                  height: 120,
+                  borderRadius: 20,
+                  alignItems: 'center',
+                }}
+                source={{uri: item.strMealThumb}}
+              />
+
+              <Text style={styles.random2text}>{item.strMeal}</Text>
+              <Text style={styles.detalText}>See Details</Text>
+            </View>
+          ))}
+        </View>
+        <View>
+          <View style={styles.categoriheder}>
+            <Text style={styles.catigoriaText}>Categories</Text>
+            <View style={styles.AllButton}>
+              <Text style={styles.Alltext}>All</Text>
+              <View style={{justifyContent: 'center'}}>
+                <AppButton
+                  icon={<VectorIcon height={28} width={28} />}
+                  onPress={Categories}
+                />
               </View>
-            </View>
-            <View style={styles.blok}>
-              <View style={styles.blok1} />
-              <View style={styles.blok2} />
-              <View style={styles.blok3} />
-            </View>
-            <View style={styles.categoriheder}>
-              <Text style={styles.catigoriaText}>Area</Text>
-              <View style={styles.AllButton}>
-                <Text style={styles.Alltext}>All</Text>
-                <View style={{justifyContent: 'center'}}>
-                  <AppButton
-                    icon={<VectorIcon height={28} width={28} />}
-                    onPress={Area}
-                  />
-                </View>
-              </View>
-            </View>
-            <View style={styles.blok}>
-              <View style={styles.blok1} />
-              <View style={styles.blok2} />
-              <View style={styles.blok3} />
-            </View>
-            <View style={styles.categoriheder}>
-              <Text style={styles.catigoriaText}>Ingredients</Text>
-              <View style={styles.AllButton}>
-                <Text style={styles.Alltext}>All</Text>
-                <View style={{justifyContent: 'center'}}>
-                  <AppButton
-                    icon={<VectorIcon height={28} width={28} />}
-                    onPress={Ingredients}
-                  />
-                </View>
-              </View>
-            </View>
-            <View style={styles.blok}>
-              <View style={styles.blok1} />
-              <View style={styles.blok2} />
-              <View style={styles.blok3} />
             </View>
           </View>
-        </ScrollView>
-      </View>
+          <View style={styles.blok}>
+            <View style={styles.blok1} />
+            <View style={styles.blok2} />
+            <View style={styles.blok3} />
+          </View>
+          <View style={styles.categoriheder}>
+            <Text style={styles.catigoriaText}>Area</Text>
+            <View style={styles.AllButton}>
+              <Text style={styles.Alltext}>All</Text>
+              <View style={{justifyContent: 'center'}}>
+                <AppButton
+                  icon={<VectorIcon height={28} width={28} />}
+                  onPress={Area}
+                />
+              </View>
+            </View>
+          </View>
+          <View style={styles.blok}>
+            <View style={styles.blok1} />
+            <View style={styles.blok2} />
+            <View style={styles.blok3} />
+          </View>
+          <View style={styles.categoriheder}>
+            <Text style={styles.catigoriaText}>Ingredients</Text>
+            <View style={styles.AllButton}>
+              <Text style={styles.Alltext}>All</Text>
+              <View style={{justifyContent: 'center'}}>
+                <AppButton
+                  icon={<VectorIcon height={28} width={28} />}
+                  onPress={Ingredients}
+                />
+              </View>
+            </View>
+          </View>
+          <View style={styles.blok}>
+            <View style={styles.blok1} />
+            <View style={styles.blok2} />
+            <View style={styles.blok3} />
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -154,8 +154,9 @@ const FoodHome = () => {
 export default FoodHome;
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'red',
+    // backgroundColor: 'black',
     marginTop: 15,
   },
   Header: {

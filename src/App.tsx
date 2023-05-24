@@ -12,7 +12,7 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator screenOptions={{header: () => null}}>
-      <Drawer.Screen name="Home" component={FoodHome} />
+      <Drawer.Screen name="FoodHome" component={FoodHome} />
     </Drawer.Navigator>
   );
 };

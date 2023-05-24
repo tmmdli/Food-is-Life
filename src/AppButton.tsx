@@ -1,7 +1,12 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {TouchableOpacity, ViewStyle} from 'react-native';
 
-const AppButton = ({style, icon, onPress}) => {
+type Props = {
+  style: ViewStyle;
+  icon: any;
+  onPress: () => void;
+};
+const AppButton = ({icon, onPress}: Props) => {
   return <TouchableOpacity onPress={onPress}>{icon}</TouchableOpacity>;
 };
 
