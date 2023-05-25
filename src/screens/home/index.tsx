@@ -8,20 +8,27 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 //
 const Home = ({}) => {
-  const [food, setFood] = useState([]);
+  const [randomFood, setRandomFood] = useState([]);
   const navigation = useNavigation();
   // const [meals, setMeals] = useState([]);
-  const reqwest = async () => {
+  const requestRandomFood = async () => {
     const response = await fetch(
       'https://www.themealdb.com/api/json/v1/1/random.php',
     );
     const data = await response.json();
-    setFood(data.meals);
+    return data.meals.flat(0);
   };
 
   useEffect(() => {
-    reqwest();
+    for (let i = 0; i < 2; i++) {
+      requestRandomFood().then(res => setRandomFood(prev => [...prev, res[0]]));
+    }
+
+    return () => {
+      setRandomFood([]);
+    };
   }, []);
+
   const Categories = () => {};
   const Area = () => {};
   const Ingredients = () => {};
@@ -49,7 +56,7 @@ const Home = ({}) => {
           <Text style={styles.RandomText}>Random Meals</Text>
         </View>
         <View style={styles.random}>
-          {food?.map((item, index) => (
+          {randomFood?.map((item, index) => (
             <View style={styles.random1} key={index}>
               <Image
                 style={{
@@ -65,22 +72,6 @@ const Home = ({}) => {
               <View>
                 <Text style={styles.detalText}>See Details</Text>
               </View>
-            </View>
-          ))}
-          {food?.map((item, index) => (
-            <View style={styles.random2} key={index}>
-              <Image
-                style={{
-                  width: 140,
-                  height: 120,
-                  borderRadius: 20,
-                  alignItems: 'center',
-                }}
-                source={{uri: item.strMealThumb}}
-              />
-
-              <Text style={styles.random2text}>{item.strMeal}</Text>
-              <Text style={styles.detalText}>See Details</Text>
             </View>
           ))}
         </View>
