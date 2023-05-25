@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {} from 'react-test-renderer';
 import VectorIcon from '../../assets/icons/Vector.svg';
-import NoteIcon from '../../assets/icons/Note.svg';
+import BackIcon from '../../assets/icons/Back.svg';
 import SearchIcon from '../../assets/icons/Search.svg';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -77,7 +77,7 @@ const Search = () => {
                 <Text style={styles.foodtext}>{meal(item.strMeal)}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.noteicon}>
-                <NoteIcon width={25} height={24} />
+                <BackIcon width={25} height={24} />
               </TouchableOpacity>
             </View>
           ))

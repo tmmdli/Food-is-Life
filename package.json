@@ -10,6 +10,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "react-native-splash-screen": "^3.3.0",
+    "react-redux": "^8.0.5",
     "@react-native-masked-view/masked-view": "^0.2.9",
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
