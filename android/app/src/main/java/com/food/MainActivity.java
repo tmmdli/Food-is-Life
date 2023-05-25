@@ -18,11 +18,11 @@ public class MainActivity extends ReactActivity {
     return "Food";
   }
 
-   @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen.show(this);  
-        super.onCreate(savedInstanceState);
-    }
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+      SplashScreen.show(this);  
+      super.onCreate(savedInstanceState);
+  }
 
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link
