@@ -1,14 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {View, Image, Text, StyleSheet, ScrollView} from 'react-native';
-import AppButton from './AppButton';
-import BurgerIcon from './assets/icons/Burger.svg';
-import VectorIcon from './assets/icons/Vector.svg';
-import EllipseIcon from './assets/icons/Ellipse.svg';
+import AppButton from '../../components/AppButton';
+import BurgerIcon from '../../assets/icons/Burger.svg';
+import VectorIcon from '../../assets/icons/Vector.svg';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 //
-const FoodHome = ({}) => {
+const Home = ({}) => {
   const [food, setFood] = useState([]);
   const navigation = useNavigation();
   // const [meals, setMeals] = useState([]);
@@ -17,23 +16,15 @@ const FoodHome = ({}) => {
       'https://www.themealdb.com/api/json/v1/1/random.php',
     );
     const data = await response.json();
-    console.log(data);
     setFood(data.meals);
   };
-  // console.log(food);
 
   useEffect(() => {
     reqwest();
   }, []);
-  const Categories = () => {
-    console.log('Categories');
-  };
-  const Area = () => {
-    console.log('Area');
-  };
-  const Ingredients = () => {
-    console.log('Ingredients');
-  };
+  const Categories = () => {};
+  const Area = () => {};
+  const Ingredients = () => {};
 
   return (
     <SafeAreaView style={styles.Header}>
@@ -52,7 +43,7 @@ const FoodHome = ({}) => {
           </View>
         </View>
         <View style={styles.logo}>
-          <Image source={require('./assets/images/yemek.png')} />
+          <Image source={require('../../assets/images/food.png')} />
         </View>
         <View>
           <Text style={styles.RandomText}>Random Meals</Text>
@@ -151,7 +142,8 @@ const FoodHome = ({}) => {
   );
 };
 
-export default FoodHome;
+export default Home;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -162,7 +154,6 @@ const styles = StyleSheet.create({
   Header: {
     flex: 1,
     backgroundColor: 'rgba(8 ,18 , 51,  0.54)',
-
   },
   hader: {
     fontSize: 26,

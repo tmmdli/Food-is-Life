@@ -1,4 +1,4 @@
-import React, { useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -9,14 +9,13 @@ import {
   View,
 } from 'react-native';
 import {} from 'react-test-renderer';
-import VectorIcon from './Vector.svg';
-import NoteIcon from './Note.svg';
-import SearchIcon from './Search.svg';
-import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import VectorIcon from '../../assets/icons/Vector.svg';
+import NoteIcon from '../../assets/icons/Note.svg';
+import SearchIcon from '../../assets/icons/Search.svg';
+import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const apiUrl = 'http://www.themealdb.com/api/json/v1/1/search.php?s=';
-
 
 const Search = () => {
   const [value, setValue] = useState('');
@@ -26,24 +25,20 @@ const Search = () => {
   const onGetData = async () => {
     const response = await fetch(apiUrl + value, {method: 'GET'});
     const result = await response.json();
-    console.log(result);
     setFood(result.meals);
   };
   const onChangeText = (text: string) => {
     setValue(text);
   };
   const meal = strMeal => {
-    if ( strMeal.length > 30 ){
-      return (strMeal.substring(0,30) + '...');
+    if (strMeal.length > 30) {
+      return strMeal.substring(0, 30) + '...';
+    } else {
+      return strMeal;
     }
-    else {
-      return (strMeal);
-     }
-
-
   };
   const handleBackPress = () => {
-   navigation.goBack();
+    navigation.goBack();
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -67,7 +62,7 @@ const Search = () => {
           placeholderTextColor="#2C2F38"
           onChangeText={onChangeText}
         />
-        <TouchableOpacity style={styles.search}  onPress={onGetData} >
+        <TouchableOpacity style={styles.search} onPress={onGetData}>
           <SearchIcon width={24} height={24} />
         </TouchableOpacity>
       </View>
@@ -78,10 +73,10 @@ const Search = () => {
           food.map((item, index) => (
             <View style={styles.titlecontainer} key={index}>
               <TouchableOpacity style={styles.downbutton}>
-                <Image style={styles.image} source={{ uri: item.strMealThumb }} />
+                <Image style={styles.image} source={{uri: item.strMealThumb}} />
                 <Text style={styles.foodtext}>{meal(item.strMeal)}</Text>
               </TouchableOpacity>
-              <TouchableOpacity  style={styles.noteicon} >
+              <TouchableOpacity style={styles.noteicon}>
                 <NoteIcon width={25} height={24} />
               </TouchableOpacity>
             </View>
@@ -94,9 +89,9 @@ const Search = () => {
 
 export default Search;
 const styles = StyleSheet.create({
-  container:{
-     backgroundColor: 'rgba(8 ,18 , 51,  0.54)',
-     flex:1,
+  container: {
+    backgroundColor: 'rgba(8 ,18 , 51,  0.54)',
+    flex: 1,
   },
   textSearch: {
     alignSelf: 'center',
@@ -107,8 +102,8 @@ const styles = StyleSheet.create({
   childcontainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'space-between',
-    width:'60%',
+    justifyContent: 'space-between',
+    width: '60%',
   },
   image: {
     width: 120,
@@ -146,7 +141,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 20,
     marginLeft: 20,
-    justifyContent:'center',
+    justifyContent: 'center',
   },
   textinput: {
     width: 332,
@@ -179,18 +174,18 @@ const styles = StyleSheet.create({
     color: 'black',
     alignSelf: 'center',
   },
-  noteicon:{
-    position:'absolute',
-    right:40,
-    top:12,
+  noteicon: {
+    position: 'absolute',
+    right: 40,
+    top: 12,
   },
-  search:{
-    right:40,
+  search: {
+    right: 40,
   },
-  noResultsText:{
-    fontSize:30,
-    color:'#F8F2F2',
-    fontWeight:'700',
-    alignSelf:'center',
+  noResultsText: {
+    fontSize: 30,
+    color: '#F8F2F2',
+    fontWeight: '700',
+    alignSelf: 'center',
   },
 });
