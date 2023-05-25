@@ -7,67 +7,89 @@ import VectorIcon from './assets/icons/Vector.svg';
 import EllipseIcon from './assets/icons/Ellipse.svg';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
-//
+
 const FoodHome = ({route: {params}}) => {
   const [food, setFood] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [area, setArea] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
   const navigation = useNavigation();
-  // const [meals, setMeals] = useState([]);
-  const reqwest = async () => {
-    const response = await fetch(
-      'https://www.themealdb.com/api/json/v1/1/random.php',
-    );
+
+  const request = async url => {
+    const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
-    setFood(data.meals);
+    return data;
   };
-  // console.log(food);
 
   useEffect(() => {
-    reqwest();
+    const fetchData = async () => {
+      const foodData = await request(
+        'https://www.themealdb.com/api/json/v1/1/random.php',
+      );
+      setFood(foodData.meals);
+
+      const categoryData = await request(
+        'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
+      );
+      setCategories(categoryData.meals.slice(0, 3));
+
+      const areaData = await request(
+        'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
+      );
+      setArea(areaData.meals.slice(0, 3));
+
+      const ingredentData = await request(
+        'https://www.themealdb.com/api/json/v1/1/list.php?i=list',
+      );
+      setIngredients(ingredentData.meals.slice(0, 3));
+    };
+
+    fetchData();
   }, []);
-  const Categories = () => {
+
+  const showCategories = () => {
     console.log('Categories');
   };
-  const Area = () => {
+
+  const showArea = () => {
     console.log('Area');
   };
-  const Ingredients = () => {
+
+  const showIngredients = () => {
     console.log('Ingredients');
   };
 
   return (
-    <SafeAreaView style={styles.Header}>
+    <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View style={styles.container}>
+        <View style={styles.header}>
           <AppButton
             onPress={() => {
               navigation.toggleDrawer();
             }}
             icon={<BurgerIcon />}
-            // style={undefined}
           />
-          {/* </View> */}
-          <View style={styles.containerhader}>
-            <Text style={styles.hader}>Food Recipes</Text>
+          <View style={styles.headerContainer}>
+            <Text style={styles.title}>Food Recipes</Text>
           </View>
         </View>
         <View style={styles.logo}>
           <Image source={require('./assets/images/yemek.png')} />
         </View>
         <View>
-          <Text style={styles.RandomText}>Random Meals</Text>
+          <Text style={styles.randomText}>Random Meals</Text>
         </View>
         <View style={styles.random}>
           {food?.map((item, index) => (
             <View style={styles.random1} key={index}>
               <Image
+                source={{uri: item.strMealThumb}}
                 style={{
                   width: 140,
                   height: 120,
                   borderRadius: 20,
                   alignItems: 'center',
                 }}
-                source={{uri: item.strMealThumb}}
               />
 
               <Text style={styles.random1text}>{item.strMeal}</Text>
@@ -79,13 +101,13 @@ const FoodHome = ({route: {params}}) => {
           {food?.map((item, index) => (
             <View style={styles.random2} key={index}>
               <Image
+                source={{uri: item.strMealThumb}}
                 style={{
                   width: 140,
                   height: 120,
                   borderRadius: 20,
                   alignItems: 'center',
                 }}
-                source={{uri: item.strMealThumb}}
               />
 
               <Text style={styles.random2text}>{item.strMeal}</Text>
@@ -93,175 +115,244 @@ const FoodHome = ({route: {params}}) => {
             </View>
           ))}
         </View>
-        <View>
-          <View style={styles.categoriheder}>
-            <Text style={styles.catigoriaText}>Categories</Text>
-            <View style={styles.AllButton}>
-              <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
-                <AppButton
-                  icon={<VectorIcon height={28} width={28} />}
-                  onPress={Categories}
-                />
-              </View>
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryText}>Categories</Text>
+          <View style={styles.buttonContainer}>
+            <Text style={styles.buttonText}>All</Text>
+            <View style={styles.button}>
+              <AppButton
+                icon={<VectorIcon height={28} width={28} />}
+                onPress={showCategories}
+              />
             </View>
           </View>
-          <View style={styles.blok}>
-            <View style={styles.blok1} />
-            <View style={styles.blok2} />
-            <View style={styles.blok3} />
-          </View>
-          <View style={styles.categoriheder}>
-            <Text style={styles.catigoriaText}>Area</Text>
-            <View style={styles.AllButton}>
-              <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
-                <AppButton
-                  icon={<VectorIcon height={28} width={28} />}
-                  onPress={Area}
-                />
-              </View>
+        </View>
+        <View style={styles.blockContainer}>
+          {categories.map((category, index) => (
+            <View style={styles.blockItem} key={index}>
+              <Image
+                source={{
+                  uri: `https://www.themealdb.com/images/category/${category.strCategory}.png`,
+                }}
+                style={styles.blockImage}
+              />
+              <Text style={styles.blockText}>{category.strCategory}</Text>
             </View>
-          </View>
-          <View style={styles.blok}>
-            <View style={styles.blok1} />
-            <View style={styles.blok2} />
-            <View style={styles.blok3} />
-          </View>
-          <View style={styles.categoriheder}>
-            <Text style={styles.catigoriaText}>Ingredients</Text>
-            <View style={styles.AllButton}>
-              <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
-                <AppButton
-                  icon={<VectorIcon height={28} width={28} />}
-                  onPress={Ingredients}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.blok}>
-            <View style={styles.blok1} />
-            <View style={styles.blok2} />
-            <View style={styles.blok3} />
-          </View>
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default FoodHome;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    // backgroundColor: 'black',
     marginTop: 15,
-  },
-  Header: {
-    flex: 1,
     backgroundColor: 'red',
   },
-  hader: {
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  headerContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  title: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: 'black',
-    verticalAlign: 'middle',
-  },
-  containerhader: {
-    marginLeft: 70,
+    borderRadius: 10,
   },
   logo: {
     alignItems: 'center',
-    // justifyContent: 'center',
+    marginVertical: 10,
   },
-  icon: {
-    backgroundColor: 'yellow',
-  },
-  RandomText: {
-    fontWeight: '800',
-    fontSize: 22,
-    color: 'white',
+  randomText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginHorizontal: 10,
+    marginBottom: 5,
   },
   random: {
     flexDirection: 'row',
-    gap: 30,
-    justifyContent: 'center',
-    marginTop: 15,
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
   },
-  random1: {
-    backgroundColor: 'white',
-    width: 140,
-    height: 240,
-    borderRadius: 20,
-    gap: 10,
-    // justifyContent: 'center',
+  randomItem: {
+    // alignItems: 'center',
   },
-  random1text: {
-    fontSize: 22,
-    fontWeight: '900',
-    color: 'black',
+  randomImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
   },
-  random2: {
-    backgroundColor: 'white',
-    width: 140,
-    height: 240,
-    borderRadius: 20,
-    gap: 10,
-    // justifyContent: 'center',
+  detailsText: {
+    fontSize: 16,
+    color: 'blue',
+    marginTop: 5,
   },
-  random2text: {
-    fontSize: 22,
-    fontWeight: '900',
-    color: 'black',
+  categoryContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    marginTop: 20,
   },
-  detalText: {
-    fontSize: 13,
-    fontWeight: '400',
-    color: '#000000',
-    marginLeft: 10,
+  categoryText: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-  catigoriaText: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: 'white',
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  categoriheder: {
+  buttonText: {
+    fontSize: 16,
+    marginRight: 5,
+  },
+  button: {
+    borderRadius: 15,
+    backgroundColor: 'lightgray',
+    padding: 5,
+  },
+  blockContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 15,
+    paddingHorizontal: 10,
+    marginTop: 10,
   },
-  Alltext: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: 'white',
+  blockItem: {
+    alignItems: 'center',
   },
-  AllButton: {
-    flexDirection: 'row',
+  blockImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
-  blok: {
-    flexDirection: 'row',
-    gap: 20,
-    justifyContent: 'center',
-    marginTop: 15,
-  },
-  blok1: {
-    backgroundColor: 'white',
-    width: 110,
-    height: 50,
-    borderRadius: 10,
-  },
-  blok2: {
-    backgroundColor: 'white',
-    width: 100,
-    height: 50,
-    borderRadius: 10,
-  },
-  blok3: {
-    backgroundColor: 'white',
-    width: 100,
-    height: 50,
-    borderRadius: 10,
+  blockText: {
+    marginTop: 5,
+    textAlign: 'center',
   },
 });
+
+export default FoodHome;
+
+// export default FoodHome;
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     // backgroundColor: 'black',
+//     marginTop: 15,
+//   },
+//   Header: {
+//     flex: 1,
+//     backgroundColor: 'red',
+//   },
+//   hader: {
+//     fontSize: 26,
+//     fontWeight: 'bold',
+//     color: 'black',
+//     verticalAlign: 'middle',
+//   },
+//   containerhader: {
+//     marginLeft: 70,
+//   },
+//   logo: {
+//     alignItems: 'center',
+//     // justifyContent: 'center',
+//   },
+//   icon: {
+//     backgroundColor: 'yellow',
+//   },
+//   RandomText: {
+//     fontWeight: '800',
+//     fontSize: 22,
+//     color: 'white',
+//   },
+//   random: {
+//     flexDirection: 'row',
+//     gap: 30,
+//     justifyContent: 'center',
+//     marginTop: 15,
+//   },
+//   random1: {
+//     backgroundColor: 'white',
+//     width: 140,
+//     height: 240,
+//     borderRadius: 20,
+//     gap: 10,
+//     // justifyContent: 'center',
+//   },
+//   random1text: {
+//     fontSize: 22,
+//     fontWeight: '900',
+//     color: 'black',
+//   },
+//   random2: {
+//     backgroundColor: 'white',
+//     width: 140,
+//     height: 240,
+//     borderRadius: 20,
+//     gap: 10,
+//     // justifyContent: 'center',
+//   },
+//   random2text: {
+//     fontSize: 22,
+//     fontWeight: '900',
+//     color: 'black',
+//   },
+//   detalText: {
+//     fontSize: 13,
+//     fontWeight: '400',
+//     color: '#000000',
+//     marginLeft: 10,
+//   },
+//   catigoriaText: {
+//     fontSize: 22,
+//     fontWeight: '700',
+//     color: 'white',
+//   },
+//   categoriheder: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     marginTop: 15,
+//   },
+//   Alltext: {
+//     fontSize: 22,
+//     fontWeight: '700',
+//     color: 'white',
+//   },
+//   AllButton: {
+//     flexDirection: 'row',
+//   },
+//   blok: {
+//     flexDirection: 'row',
+//     gap: 20,
+//     justifyContent: 'center',
+//     marginTop: 15,
+//   },
+//   blok1: {
+//     backgroundColor: 'white',
+//     width: 110,
+//     height: 50,
+//     borderRadius: 10,
+//   },
+//   blok2: {
+//     backgroundColor: 'white',
+//     width: 100,
+//     height: 50,
+//     borderRadius: 10,
+//   },
+//   blok3: {
+//     backgroundColor: 'white',
+//     width: 100,
+//     height: 50,
+//     borderRadius: 10,
+//   },
+
+// });
