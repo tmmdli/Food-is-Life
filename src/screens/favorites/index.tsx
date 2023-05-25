@@ -13,7 +13,7 @@ const Favorites = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.favtext}>Favorites</Text>
-        <TouchableOpacity onPress={() => console.log('')}>
+        <TouchableOpacity onPress={() => {}}>
           <BackIcon width={25} height={24} />
         </TouchableOpacity>
       </View>
