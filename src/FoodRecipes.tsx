@@ -1,5 +1,13 @@
-import React from "react";
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableOpacityComponent, View } from "react-native";
+import React, { useEffect, useState } from 'react';
+import {
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import VectorIcon from './assets/icons/vector.svg';
 import IconIcon from './assets/icons/icon.svg';
 import KaloriIcon from './assets/icons/kalori.svg';
@@ -7,75 +15,121 @@ import SebetIcon from './assets/icons/sebet.svg';
 import TimeIcon from './assets/icons/time.svg';
 
 const FoodRecipes = () => {
+  const [imag, setImag] = useState([]);
+  const request = async (url: RequestInfo) => {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  };
+
+  const meal = strMeal => {
+    if (strMeal.length > 30) {
+      return strMeal.substring(0, 25) + '...';
+    } else {
+      return strMeal;
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const foodData = await request(
+        'https://www.themealdb.com/api/json/v1/1/search.php?s=Beef',
+      );
+      setImag(foodData.meals.slice(0, 1));
+    };
+    fetchData();
+  }, []);
+
+
   return (
-    <View style={styles.container}>
-      <View style={styles.button}>
-        <TouchableOpacity onPress={() => console.log('')}
-          style={{ right: 70 }}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          onPress={() => console.log('')}
+          style={styles.righticonButton}>
           <VectorIcon width={28} height={28} />
         </TouchableOpacity>
-        <Text style={styles.recipestext}>Banana Pancakes</Text>
-        <TouchableOpacity onPress={() => console.log('')}
-          style={{ left: 70 }}>
+        {imag?.map((item, index) => (
+          <View style={styles.foodheader} key={index}>
+            <Text style={styles.recipestext}>{meal(item.strMeal)}</Text>
+          </View>
+        ))}
+        <TouchableOpacity
+          onPress={() => console.log('')}
+          style={styles.lefticonButton}>
           <IconIcon width={28} height={28} />
         </TouchableOpacity>
       </View>
+
       <View>
-        <Image
-          source={require('./assets/images/pankek.png')}
-          style={styles.pankek}
-        />
-        <View style={styles.button2}>
-          <TouchableOpacity onPress={() => console.log('')}
-          >
+        {imag?.map((item, index) => (
+          <View style={styles.foodheader} key={index}>
+            {/* <Text style={styles.recipestext}>{item.strMeal}</Text> */}
+            <Image
+              source={{
+                uri: item.strMealThumb,
+              }}
+              style={styles.FoodImage}
+            />
+          </View>
+        ))}
+
+        <View style={styles.button}>
+          <TouchableOpacity onPress={() => console.log('')}>
             <TimeIcon width={28} height={28} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('')}
-          >
+          <TouchableOpacity onPress={() => console.log('')}>
             <SebetIcon width={28} height={28} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('')}
-          >
+          <TouchableOpacity>
             <KaloriIcon width={28} height={28} />
           </TouchableOpacity>
-
         </View>
       </View>
 
-      <ScrollView
-        contentContainerStyle={styles.scroll}>
-
-        <TouchableOpacity style={styles.recipesscreen}>
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <View style={styles.recipesscreen}>
           <Image
             source={require('./assets/images/line.png')}
             style={styles.line}
           />
           <Text style={styles.ingtext}>Ingredients</Text>
           <View style={styles.ingredientsContainer}>
-            <Text style={styles.ingredients} />
+            {imag?.map((item, index) => (
+              <View style={styles.foodheader} key={index}>
+                <Text style={styles.ingredients}>{(item.strInstructions)}</Text>
+              </View>
+            ))}
+
           </View>
           <Text style={styles.directext}>Directions</Text>
           <View style={styles.directionsContainer}>
-         
-              <Text style={styles.directions}></Text>
-            
+            {imag?.map((item, index) => (
+              <View style={styles.foodheader} key={index}>
+                <Text style={styles.directions}>{(item.strInstructions)}</Text>
+              </View>
+            ))}
+
           </View>
-          
-        </TouchableOpacity>
+        </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    zIndex: 1,
     flex: 1,
   },
-  button: {
-    paddingVertical: 20,
+  headerContainer: {
+    width: '95%',
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  foodheader: {
+    alignItems: 'center',
+    marginTop: 15,
   },
   scroll: {
     flexGrow: 1,
@@ -85,27 +139,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFFFFF',
   },
-  pankek: {
-  },
-  rectangle: {
-    marginTop: 40,
+  FoodImage: {
+    width: 210,
+    height: 210,
+    borderRadius: 100,
   },
   line: {
     alignSelf: 'center',
-    marginTop: 15,
+    marginTop: 20,
   },
-  button2: {
+  button: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     marginTop: 10,
   },
   recipesscreen: {
-    width: 428,
-    height: 562,
+    flex: 1,
     backgroundColor: '#F4E4CD',
-    borderRadius: 50,
-    marginTop: 30,
-    right: 17,
+    borderTopEndRadius: 20,
+    borderTopStartRadius: 20,
+    marginTop: 10,
   },
   ingtext: {
     fontSize: 24,
@@ -115,16 +168,14 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   ingredientsContainer: {
-    borderWidth: 1,
-    height: 150,
-    width: 300,
+    paddingHorizontal: 20,
     alignSelf: 'center',
-    paddingHorizontal: 10,
     paddingVertical: 5,
   },
   ingredients: {
     fontSize: 16,
     color: '#000000',
+    marginBottom: 5,
   },
   directext: {
     fontSize: 24,
@@ -134,22 +185,16 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   directionsContainer: {
-    borderWidth: 1,
-    height: 150,
-    width: 300,
+    paddingHorizontal: 20,
     alignSelf: 'center',
     fontSize: 30,
-    paddingHorizontal: 10,
     paddingVertical: 5,
- 
   },
   directions: {
     fontSize: 16,
-    textAlign:'auto',
+    textAlign: 'left',
     color: '#000000',
-
   },
 });
 
 export default FoodRecipes;
-
