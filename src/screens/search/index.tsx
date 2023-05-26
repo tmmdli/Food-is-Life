@@ -9,8 +9,8 @@ import {
   View,
 } from 'react-native';
 import {} from 'react-test-renderer';
-import VectorIcon from '../../assets/icons/Vector.svg';
 import BackIcon from '../../assets/icons/Back.svg';
+import NoteIcon from '../../assets/icons/Note.svg';
 import SearchIcon from '../../assets/icons/Search.svg';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -44,7 +44,7 @@ const Search = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.childcontainer}>
         <TouchableOpacity onPress={handleBackPress}>
-          <VectorIcon width={25} height={24} />
+          <BackIcon width={25} height={24} />
         </TouchableOpacity>
         <Text style={styles.textSearch}>Search</Text>
       </View>
@@ -77,7 +77,7 @@ const Search = () => {
                 <Text style={styles.foodtext}>{meal(item.strMeal)}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.noteicon}>
-                <BackIcon width={25} height={24} />
+                <NoteIcon width={25} height={24} />
               </TouchableOpacity>
             </View>
           ))
