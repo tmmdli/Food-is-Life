@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   hader: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: 'black',
+    color: 'white',
     verticalAlign: 'middle',
   },
   containerhader: {
@@ -157,7 +157,6 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignItems: 'center',
-    // justifyContent: 'center',
   },
   icon: {
     backgroundColor: 'yellow',
