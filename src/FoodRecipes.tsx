@@ -8,13 +8,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import VectorIcon from './assets/icons/vector.svg';
+import VectorIcon from './assets/icons/Vector.svg';
 import FavoriteIcon from './assets/icons/Favorite.svg';
 import CaloriesIcon from './assets/icons/Calories.svg';
 import BasketIcon from './assets/icons/Basket.svg';
 import TimeIcon from './assets/icons/Time.svg';
+import {useRoute} from '@react-navigation/core';
 
 const FoodRecipes = () => {
+  // const route = useRoute();
+  // console.log(route.params?.id);
   const [imag, setImag] = useState([]);
   const request = async (url: RequestInfo) => {
     const response = await fetch(url);
@@ -22,16 +25,9 @@ const FoodRecipes = () => {
     return data;
   };
 
-  const meal = strMeal => {
-    if (strMeal.length > 30) {
-      return strMeal.substring(0, 25) + '...';
-    } else {
-      return strMeal;
-    }
-  };
-
   useEffect(() => {
     const fetchData = async () => {
+      //www.themealdb.com/api/json/v1/1/lookup.php?i=52772
       const foodData = await request(
         'https://www.themealdb.com/api/json/v1/1/search.php?s=Beef',
       );
@@ -48,10 +44,10 @@ const FoodRecipes = () => {
           style={styles.righticonButton}>
           <VectorIcon width={28} height={28} />
         </TouchableOpacity>
-        {imag?.map((item, index) => (
-          <View style={styles.foodheader} key={index}>
-            <Text style={styles.recipestext}>{meal(item.strMeal)}</Text>
-          </View>
+        {imag?.map(item => (
+          <Text style={[styles.recipestext, {flex: 1, textAlign: 'center'}]}>
+            {item.strMeal}
+          </Text>
         ))}
         <TouchableOpacity
           onPress={() => console.log('')}
@@ -120,6 +116,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: '95%',
+    backgroundColor: 'red',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
