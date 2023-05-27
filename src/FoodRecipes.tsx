@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -9,10 +9,10 @@ import {
   View,
 } from 'react-native';
 import VectorIcon from './assets/icons/vector.svg';
-import IconIcon from './assets/icons/icon.svg';
-import KaloriIcon from './assets/icons/kalori.svg';
-import SebetIcon from './assets/icons/sebet.svg';
-import TimeIcon from './assets/icons/time.svg';
+import FavoriteIcon from './assets/icons/Favorite.svg';
+import CaloriesIcon from './assets/icons/Calories.svg';
+import BasketIcon from './assets/icons/Basket.svg';
+import TimeIcon from './assets/icons/Time.svg';
 
 const FoodRecipes = () => {
   const [imag, setImag] = useState([]);
@@ -40,7 +40,6 @@ const FoodRecipes = () => {
     fetchData();
   }, []);
 
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -57,7 +56,7 @@ const FoodRecipes = () => {
         <TouchableOpacity
           onPress={() => console.log('')}
           style={styles.lefticonButton}>
-          <IconIcon width={28} height={28} />
+          <FavoriteIcon width={28} height={28} />
         </TouchableOpacity>
       </View>
 
@@ -79,10 +78,10 @@ const FoodRecipes = () => {
             <TimeIcon width={28} height={28} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('')}>
-            <SebetIcon width={28} height={28} />
+            <BasketIcon width={28} height={28} />
           </TouchableOpacity>
           <TouchableOpacity>
-            <KaloriIcon width={28} height={28} />
+            <CaloriesIcon width={28} height={28} />
           </TouchableOpacity>
         </View>
       </View>
@@ -97,19 +96,17 @@ const FoodRecipes = () => {
           <View style={styles.ingredientsContainer}>
             {imag?.map((item, index) => (
               <View style={styles.foodheader} key={index}>
-                <Text style={styles.ingredients}>{(item.strInstructions)}</Text>
+                <Text style={styles.ingredients}>{item.strInstructions}</Text>
               </View>
             ))}
-
           </View>
           <Text style={styles.directext}>Directions</Text>
           <View style={styles.directionsContainer}>
             {imag?.map((item, index) => (
               <View style={styles.foodheader} key={index}>
-                <Text style={styles.directions}>{(item.strInstructions)}</Text>
+                <Text style={styles.directions}>{item.strInstructions}</Text>
               </View>
             ))}
-
           </View>
         </View>
       </ScrollView>

@@ -1,26 +1,25 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
-import FoodRecipes from './FoodRecipes';
-
+import {StyleSheet} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Root} from './navigations/Root';
+import {Provider} from 'react-redux';
+import {store} from './redux/store';
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.title}>
-        < FoodRecipes />
-      </View>
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaProvider style={styles.container}>
+        <Root />
+      </SafeAreaProvider>
+    </Provider>
   );
 };
 
+export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(8, 18, 51, 0.54)'
-  },
-  title: {
-    flex: 1,
+    backgroundColor: 'rgba(8 ,18 , 51,  0.54)',
+    paddingHorizontal: 10,
   },
 });
-
-export default App;
