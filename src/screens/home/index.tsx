@@ -1,19 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
-import {View, Image, Text, StyleSheet, ScrollView} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Image, Text, StyleSheet, ScrollView } from 'react-native';
 import AppButton from '../../components/AppButton';
 import BurgerIcon from '../../assets/icons/Burger.svg';
 import VectorIcon from '../../assets/icons/Vector.svg';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
-//
-const Home = ({}) => {
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+const Home = () => {
   const [randomFood, setRandomFood] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [areas, setAreas] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
   const navigation = useNavigation();
-  // const [meals, setMeals] = useState([]);
+  
+
   const requestRandomFood = async () => {
     const response = await fetch(
-      'https://www.themealdb.com/api/json/v1/1/random.php',
+      'https://www.themealdb.com/api/json/v1/1/random.php'
     );
     const data = await response.json();
     return data.meals.flat(0);
@@ -21,17 +26,44 @@ const Home = ({}) => {
 
   useEffect(() => {
     for (let i = 0; i < 2; i++) {
-      requestRandomFood().then(res => setRandomFood(prev => [...prev, res[0]]));
+      requestRandomFood().then((res) =>
+        setRandomFood((prev) => [...prev, res[0]])
+      );
     }
-
     return () => {
       setRandomFood([]);
     };
   }, []);
 
-  const Categories = () => {};
-  const Area = () => {};
-  const Ingredients = () => {};
+  const fetchCategories = async () => {
+    const response = await fetch(
+      'https://www.themealdb.com/api/json/v1/1/list.php?c=list'
+    );
+    const data = await response.json();
+    setCategories(data.meals.slice(0, 3));
+  };
+
+  const fetchAreas = async () => {
+    const response = await fetch(
+      'https://www.themealdb.com/api/json/v1/1/list.php?a=list'
+    );
+    const data = await response.json();
+    setAreas(data.meals.slice(0, 3));
+  };
+
+  const fetchIngredients = async () => {
+    const response = await fetch(
+      'https://www.themealdb.com/api/json/v1/1/list.php?i=list'
+    );
+    const data = await response.json();
+    setIngredients(data.meals.slice(0, 3));
+  };
+
+  useEffect(() => {
+    fetchCategories();
+    fetchAreas();
+    fetchIngredients();
+  }, []);
 
   return (
     <SafeAreaView style={styles.Header}>
@@ -42,9 +74,7 @@ const Home = ({}) => {
               navigation.toggleDrawer();
             }}
             icon={<BurgerIcon />}
-            // style={undefined}
           />
-          {/* </View> */}
           <View style={styles.containerhader}>
             <Text style={styles.hader}>Food Recipes</Text>
           </View>
@@ -56,23 +86,20 @@ const Home = ({}) => {
           <Text style={styles.RandomText}>Random Meals</Text>
         </View>
         <View style={styles.random}>
-          {randomFood?.map((item, index) => (
-            <View style={styles.random1} key={index}>
+          {randomFood.map((item, index) => (
+            <TouchableOpacity
+              style={styles.random1}
+              key={index}
+            >
               <Image
-                style={{
-                  width: 140,
-                  height: 120,
-                  borderRadius: 20,
-                  alignItems: 'center',
-                }}
-                source={{uri: item.strMealThumb}}
+                style={styles.randomImage}
+                source={{ uri: item.strMealThumb }}
               />
-
-              <Text style={styles.random1text}>{item.strMeal}</Text>
-              <View>
-                <Text style={styles.detalText}>See Details</Text>
-              </View>
-            </View>
+              <Text style={styles.random1text} numberOfLines={3}>
+                {item.strMeal}
+              </Text>
+              <Text style={styles.detalText}>See Details</Text>
+            </TouchableOpacity>
           ))}
         </View>
         <View>
@@ -80,52 +107,79 @@ const Home = ({}) => {
             <Text style={styles.catigoriaText}>Categories</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
+              <View style={{ justifyContent: 'center' }}>
                 <AppButton
                   icon={<VectorIcon height={28} width={28} />}
-                  onPress={Categories}
+              onPress={() => navigation.navigate('Detels')}
+                
                 />
               </View>
             </View>
           </View>
           <View style={styles.blok}>
-            <View style={styles.blok1} />
-            <View style={styles.blok2} />
-            <View style={styles.blok3} />
+            {categories.map((category, index) => (
+              <TouchableOpacity  onPress={() => navigation.navigate('Detels')}>
+              <View style={styles.blok1} key={index}>
+                <Image
+                source={{ uri: `https://www.themealdb.com/images/category/${category.strCategory}.png` }}
+                  style={styles.categoryImage}
+                />
+                <Text style={styles.textcategoria}>{category.strCategory}</Text>
+              </View>
+              </TouchableOpacity>
+            ))}
           </View>
           <View style={styles.categoriheder}>
             <Text style={styles.catigoriaText}>Area</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
+              <View style={{ justifyContent: 'center' }}>
                 <AppButton
                   icon={<VectorIcon height={28} width={28} />}
-                  onPress={Area}
+                  onPress={() => navigation.navigate('Detels')}
                 />
               </View>
             </View>
           </View>
           <View style={styles.blok}>
-            <View style={styles.blok1} />
-            <View style={styles.blok2} />
-            <View style={styles.blok3} />
+            {areas.map((area, index) => (
+              <TouchableOpacity  onPress={() => navigation.navigate('Detels')}>
+              <View style={styles.blok2} key={index}>
+                <Image
+                source={{ uri: `https://www.themealdb.com/images/category/${area.strFalg}.png` }}
+                  style={styles.areaImage}
+                  // source={require('../../assets/images/area.png')}
+                />
+                <Text style={styles.textcategoria2}>{area.strArea}</Text>
+              </View>
+              </TouchableOpacity>
+            ))}
           </View>
           <View style={styles.categoriheder}>
             <Text style={styles.catigoriaText}>Ingredients</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
+              <View style={{ justifyContent: 'center' }}>
                 <AppButton
                   icon={<VectorIcon height={28} width={28} />}
-                  onPress={Ingredients}
+                  onPress={() => navigation.navigate('Detels')}
                 />
               </View>
             </View>
           </View>
           <View style={styles.blok}>
-            <View style={styles.blok1} />
-            <View style={styles.blok2} />
-            <View style={styles.blok3} />
+            {ingredients.map((ingredient, index) => (
+               <TouchableOpacity  onPress={() => navigation.navigate('Detels')}>
+              <View style={styles.blok3} key={index}>
+                <Image
+                 source={{ uri: `https://www.themealdb.com/images/ingredient/${ingredient.strIngredient}.png` }}
+                  style={styles.ingredientImage}
+                  // source={require('../../assets/images/ingredient.png')}
+                />
+                <Text style={styles.textcategoria2}>{ingredient.strIngredient}</Text>
+              </View>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
       </ScrollView>
@@ -139,12 +193,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    // backgroundColor: 'black',
     marginTop: 15,
   },
   Header: {
     flex: 1,
-    backgroundColor: 'rgba(8 ,18 , 51,  0.54)',
+    backgroundColor: 'rgba(8, 18, 51, 0.54)',
   },
   hader: {
     fontSize: 26,
@@ -157,10 +210,6 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignItems: 'center',
-    // justifyContent: 'center',
-  },
-  icon: {
-    backgroundColor: 'yellow',
   },
   RandomText: {
     fontWeight: '800',
@@ -179,22 +228,14 @@ const styles = StyleSheet.create({
     height: 240,
     borderRadius: 20,
     gap: 10,
-    // justifyContent: 'center',
+    alignItems: 'center',
+  },
+  randomImage: {
+    width: 140,
+    height: 120,
+    borderRadius: 20,
   },
   random1text: {
-    fontSize: 22,
-    fontWeight: '900',
-    color: 'black',
-  },
-  random2: {
-    backgroundColor: 'white',
-    width: 140,
-    height: 240,
-    borderRadius: 20,
-    gap: 10,
-    // justifyContent: 'center',
-  },
-  random2text: {
     fontSize: 22,
     fontWeight: '900',
     color: 'black',
@@ -232,19 +273,51 @@ const styles = StyleSheet.create({
   blok1: {
     backgroundColor: 'white',
     width: 110,
-    height: 50,
+    height: 60,
     borderRadius: 10,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   blok2: {
     backgroundColor: 'white',
-    width: 100,
-    height: 50,
+    width: 110,
+    height: 60,
     borderRadius: 10,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   blok3: {
     backgroundColor: 'white',
-    width: 100,
-    height: 50,
+    width: 110,
+    height: 60,
     borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
+  categoryImage: {
+    width: 40,
+    height: 30,
+    borderRadius: 15,
+    // marginBottom: 10,
+  },
+  areaImage: {
+    width: 40,
+    height: 30,
+    borderRadius: 15,
+  },
+  ingredientImage: {
+    width: 40,
+    height: 30,
+    borderRadius: 15,
+  },
+  textcategoria: {
+    fontSize: 15,
+    fontWeight: '800',
+  },
+
 });
+
+
