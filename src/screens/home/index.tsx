@@ -14,7 +14,7 @@ const Home = () => {
   const [areas, setAreas] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const navigation = useNavigation();
-  
+
 
   const requestRandomFood = async () => {
     const response = await fetch(
@@ -27,7 +27,9 @@ const Home = () => {
   useEffect(() => {
     for (let i = 0; i < 2; i++) {
       requestRandomFood().then((res) =>
-        setRandomFood((prev) => [...prev, res[0]])
+        setRandomFood(function (prev) {
+          return [...prev, res[0]];
+        })
       );
     }
     return () => {
@@ -109,9 +111,8 @@ const Home = () => {
               <Text style={styles.Alltext}>All</Text>
               <View style={{ justifyContent: 'center' }}>
                 <AppButton
-                  icon={<VectorIcon height={28} width={28} />}
+                  icon={<VectorIcon height={33} width={33} />}
               onPress={() => navigation.navigate('Detels')}
-                
                 />
               </View>
             </View>
@@ -135,7 +136,7 @@ const Home = () => {
               <Text style={styles.Alltext}>All</Text>
               <View style={{ justifyContent: 'center' }}>
                 <AppButton
-                  icon={<VectorIcon height={28} width={28} />}
+                  icon={<VectorIcon height={33} width={33} />}
                   onPress={() => navigation.navigate('Detels')}
                 />
               </View>
@@ -145,11 +146,6 @@ const Home = () => {
             {areas.map((area, index) => (
               <TouchableOpacity  onPress={() => navigation.navigate('Detels')}>
               <View style={styles.blok2} key={index}>
-                <Image
-                source={{ uri: `https://www.themealdb.com/images/category/${area.strFalg}.png` }}
-                  style={styles.areaImage}
-                  // source={require('../../assets/images/area.png')}
-                />
                 <Text style={styles.textcategoria2}>{area.strArea}</Text>
               </View>
               </TouchableOpacity>
@@ -161,7 +157,7 @@ const Home = () => {
               <Text style={styles.Alltext}>All</Text>
               <View style={{ justifyContent: 'center' }}>
                 <AppButton
-                  icon={<VectorIcon height={28} width={28} />}
+                  icon={<VectorIcon height={33} width={33} />}
                   onPress={() => navigation.navigate('Detels')}
                 />
               </View>
@@ -171,11 +167,6 @@ const Home = () => {
             {ingredients.map((ingredient, index) => (
                <TouchableOpacity  onPress={() => navigation.navigate('Detels')}>
               <View style={styles.blok3} key={index}>
-                <Image
-                 source={{ uri: `https://www.themealdb.com/images/ingredient/${ingredient.strIngredient}.png` }}
-                  style={styles.ingredientImage}
-                  // source={require('../../assets/images/ingredient.png')}
-                />
                 <Text style={styles.textcategoria2}>{ingredient.strIngredient}</Text>
               </View>
               </TouchableOpacity>
@@ -296,6 +287,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+    marginVertical: 10,
   },
   categoryImage: {
     width: 40,
@@ -316,8 +308,13 @@ const styles = StyleSheet.create({
   textcategoria: {
     fontSize: 15,
     fontWeight: '800',
+    color: 'black',
   },
-
+  textcategoria2: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'black',
+  },
 });
 
 

@@ -1,17 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from 'react';
-import { View, Image, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import VectorIcon from '../../assets/icons/Vector.svg';
+import VectorhomeIcon from '../../assets/icons/Vectorhome.svg';
 
-const Detels = () => {
+const Home = () => {
   const [categories, setCategories] = useState([]);
   const [areas, setAreas] = useState([]);
   const [ingredients, setIngredients] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState([]);
-  const [selectedArea, setSelectedArea] = useState([]);
-  const [selectedIngredient, setSelectedIngredient] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
 
   const navigation = useNavigation();
 
@@ -20,10 +20,6 @@ const Detels = () => {
     fetchAreas();
     fetchIngredients();
   }, []);
-
-  const handleBackPress = () => {
-    navigation.goBack();
-  };
 
   const fetchCategories = async () => {
     const response = await fetch(
@@ -49,6 +45,54 @@ const Detels = () => {
     setIngredients(data.meals);
   };
 
+  const handleBackPress = () => {
+    navigation.goBack();
+  };
+
+  const handleCategoryPress = () => {
+    setSelectedCategory(categories);
+    setSelectedArea(null);
+    setSelectedIngredient(null);
+  };
+
+  const handleAreaPress = () => {
+    setSelectedCategory(null);
+    setSelectedArea(areas);
+    setSelectedIngredient(null);
+  };
+
+  const handleIngredientPress = () => {
+    setSelectedCategory(null);
+    setSelectedArea(null);
+    setSelectedIngredient(ingredients);
+  };
+
+  const renderCategoryButton = () => (
+    <TouchableOpacity
+      style={styles.button}
+      onPress={handleCategoryPress}
+    >
+      <Text style={styles.buttonText}>Categories</Text>
+    </TouchableOpacity>
+  );
+
+  const renderAreaButton = () => (
+    <TouchableOpacity
+      style={styles.button}
+      onPress={handleAreaPress}
+    >
+      <Text style={styles.buttonText}>Areas</Text>
+    </TouchableOpacity>
+  );
+
+  const renderIngredientButton = () => (
+    <TouchableOpacity
+      style={styles.button}
+      onPress={handleIngredientPress}
+    >
+      <Text style={styles.buttonText}>Ingredients</Text>
+    </TouchableOpacity>
+  );
 
   const renderList = (list) => {
     if (list.length === 0) {
@@ -58,19 +102,12 @@ const Detels = () => {
     return (
       <ScrollView>
         <View style={styles.listContainer}>
-            <TouchableOpacity onPress={handleBackPress}>
-          <VectorIcon width={25} height={24} />
-        </TouchableOpacity>
           {list.map((item, index) => (
             <TouchableOpacity
               style={styles.itemContainer}
-              onPress={() => navigation.navigate('Detels', { item })}
+              onPress={() => navigation.navigate('Details', { item })}
               key={index}
             >
-              <Image
-                style={styles.itemImage}
-                source={{ uri: item.strCategoryThumb || item.strAreaThumb || item.strIngredientThumb }}
-              />
               <Text style={styles.itemText}>{item.strCategory || item.strArea || item.strIngredient}</Text>
             </TouchableOpacity>
           ))}
@@ -81,16 +118,16 @@ const Detels = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <View style={styles.hedercontainer}>
-          <TouchableOpacity  onPress={handleBackPress}>
-          <VectorIcon width={30} height={30} />
+      <View style={styles.containerheader}>
+      <TouchableOpacity onPress={handleBackPress}>
+          <VectorhomeIcon width={33} height={33} />
         </TouchableOpacity>
-      <Text style={styles.header}>Category/Area/Ingredient</Text>
+      <Text style={styles.header}>Categoria/Area/Ingredient</Text>
       </View>
       <View style={styles.buttonContainer}>
-        {/* {renderCategoryButton()}
+        {renderCategoryButton()}
         {renderAreaButton()}
-        {renderIngredientButton()} */}
+        {renderIngredientButton()}
       </View>
       {selectedCategory && renderList(selectedCategory)}
       {selectedArea && renderList(selectedArea)}
@@ -98,59 +135,63 @@ const Detels = () => {
     </SafeAreaView>
   );
 };
- 
-
-export default Detels;
+export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'rgba(8 ,18 , 51,  0.54)',
   },
-  hedercontainer: {
-    flexDirection:'row',
+  containerheader: {
     marginTop: 10,
-    justifyContent: 'space-between'
- 
+    flexDirection: 'row',
+    marginBottom: 20,
   },
   header: {
     fontSize: 24,
-    marginRight: 25,
+    fontWeight: 'bold',
+    marginLeft: 25,
+    color: 'white'
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
   },
   button: {
-    backgroundColor: '#4b7bec',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    backgroundColor: 'black',
+    justifyContent:'center',
+    alignItems: 'center',
+  
     borderRadius: 10,
+    width: 360,
+    height: 50, 
   },
   buttonText: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 28,
     fontWeight: 'bold',
   },
   listContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    gap: 3,
+    marginTop: 10
   },
   itemContainer: {
     alignItems: 'center',
-    margin: 10,
-  },
-  itemImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 10,
+    width: 360,
+    height: 40,
+    borderRadius: 15,
+    gap: 5,
+    backgroundColor: 'green'
   },
   itemText: {
     marginTop: 10,
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: 'white'
   },
 });
 

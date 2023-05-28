@@ -4,7 +4,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {DrawerNavigator} from './drawerNavigator';
 import SplashScreen from 'react-native-splash-screen';
 import Detels from '../screens/Detels';
-import Home from '../screens/home';
 
 const Stack = createStackNavigator();
 
