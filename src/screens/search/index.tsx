@@ -8,8 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {} from 'react-test-renderer';
-import VectorIcon from '../../assets/icons/Vector.svg';
+import NextIcon from '../../assets/icons/Next.svg';
 import BackIcon from '../../assets/icons/Back.svg';
 import SearchIcon from '../../assets/icons/Search.svg';
 import {useNavigation} from '@react-navigation/native';
@@ -44,7 +43,7 @@ const Search = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.childcontainer}>
         <TouchableOpacity onPress={handleBackPress}>
-          <VectorIcon width={25} height={24} />
+          <NextIcon width={25} height={24} />
         </TouchableOpacity>
         <Text style={styles.textSearch}>Search</Text>
       </View>

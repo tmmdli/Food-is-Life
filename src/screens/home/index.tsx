@@ -1,12 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect, useState } from 'react';
-import { View, Image, Text, StyleSheet, ScrollView } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import AppButton from '../../components/AppButton';
 import BurgerIcon from '../../assets/icons/Burger.svg';
-import VectorIcon from '../../assets/icons/Vector.svg';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import NextIcon from '../../assets/icons/Next.svg';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
   const [randomFood, setRandomFood] = useState([]);
@@ -15,10 +21,9 @@ const Home = () => {
   const [ingredients, setIngredients] = useState([]);
   const navigation = useNavigation();
 
-
   const requestRandomFood = async () => {
     const response = await fetch(
-      'https://www.themealdb.com/api/json/v1/1/random.php'
+      'https://www.themealdb.com/api/json/v1/1/random.php',
     );
     const data = await response.json();
     return data.meals.flat(0);
@@ -26,10 +31,10 @@ const Home = () => {
 
   useEffect(() => {
     for (let i = 0; i < 2; i++) {
-      requestRandomFood().then((res) =>
+      requestRandomFood().then(res =>
         setRandomFood(function (prev) {
           return [...prev, res[0]];
-        })
+        }),
       );
     }
     return () => {
@@ -39,7 +44,7 @@ const Home = () => {
 
   const fetchCategories = async () => {
     const response = await fetch(
-      'https://www.themealdb.com/api/json/v1/1/list.php?c=list'
+      'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
     );
     const data = await response.json();
     setCategories(data.meals.slice(0, 3));
@@ -47,7 +52,7 @@ const Home = () => {
 
   const fetchAreas = async () => {
     const response = await fetch(
-      'https://www.themealdb.com/api/json/v1/1/list.php?a=list'
+      'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
     );
     const data = await response.json();
     setAreas(data.meals.slice(0, 3));
@@ -55,7 +60,7 @@ const Home = () => {
 
   const fetchIngredients = async () => {
     const response = await fetch(
-      'https://www.themealdb.com/api/json/v1/1/list.php?i=list'
+      'https://www.themealdb.com/api/json/v1/1/list.php?i=list',
     );
     const data = await response.json();
     setIngredients(data.meals.slice(0, 3));
@@ -69,7 +74,10 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.Header}>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{flex: 1}}
+        contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.container}>
           <AppButton
             onPress={() => {
@@ -89,13 +97,10 @@ const Home = () => {
         </View>
         <View style={styles.random}>
           {randomFood.map((item, index) => (
-            <TouchableOpacity
-              style={styles.random1}
-              key={index}
-            >
+            <TouchableOpacity style={styles.random1} key={index}>
               <Image
                 style={styles.randomImage}
-                source={{ uri: item.strMealThumb }}
+                source={{uri: item.strMealThumb}}
               />
               <Text style={styles.random1text} numberOfLines={3}>
                 {item.strMeal}
@@ -109,24 +114,35 @@ const Home = () => {
             <Text style={styles.catigoriaText}>Categories</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{ justifyContent: 'center' }}>
+              <View style={{justifyContent: 'center'}}>
                 <AppButton
-                  icon={<VectorIcon height={33} width={33} />}
-              onPress={() => navigation.navigate('Detels')}
+                  icon={<NextIcon height={33} width={33} />}
+                  onPress={() =>
+                    navigation.navigate('Details', {
+                      title: 'Categories',
+                      key: 'c',
+                    })
+                  }
                 />
               </View>
             </View>
           </View>
           <View style={styles.blok}>
             {categories.map((category, index) => (
-              <TouchableOpacity  onPress={() => navigation.navigate('Detels')}>
-              <View style={styles.blok1} key={index}>
-                <Image
-                source={{ uri: `https://www.themealdb.com/images/category/${category.strCategory}.png` }}
-                  style={styles.categoryImage}
-                />
-                <Text style={styles.textcategoria}>{category.strCategory}</Text>
-              </View>
+              <TouchableOpacity
+                key={index}
+                onPress={() => navigation.navigate('Details')}>
+                <View style={styles.blok1}>
+                  <Image
+                    source={{
+                      uri: `https://www.themealdb.com/images/category/${category.strCategory}.png`,
+                    }}
+                    style={styles.categoryImage}
+                  />
+                  <Text style={styles.textcategoria}>
+                    {category.strCategory}
+                  </Text>
+                </View>
               </TouchableOpacity>
             ))}
           </View>
@@ -134,20 +150,24 @@ const Home = () => {
             <Text style={styles.catigoriaText}>Area</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{ justifyContent: 'center' }}>
+              <View style={{justifyContent: 'center'}}>
                 <AppButton
-                  icon={<VectorIcon height={33} width={33} />}
-                  onPress={() => navigation.navigate('Detels')}
+                  icon={<NextIcon height={33} width={33} />}
+                  onPress={() =>
+                    navigation.navigate('Details', {title: 'Area', key: 'a'})
+                  }
                 />
               </View>
             </View>
           </View>
           <View style={styles.blok}>
             {areas.map((area, index) => (
-              <TouchableOpacity  onPress={() => navigation.navigate('Detels')}>
-              <View style={styles.blok2} key={index}>
-                <Text style={styles.textcategoria2}>{area.strArea}</Text>
-              </View>
+              <TouchableOpacity
+                key={index}
+                onPress={() => navigation.navigate('Details')}>
+                <View style={styles.blok2}>
+                  <Text style={styles.textcategoria2}>{area.strArea}</Text>
+                </View>
               </TouchableOpacity>
             ))}
           </View>
@@ -155,20 +175,29 @@ const Home = () => {
             <Text style={styles.catigoriaText}>Ingredients</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{ justifyContent: 'center' }}>
+              <View style={{justifyContent: 'center'}}>
                 <AppButton
-                  icon={<VectorIcon height={33} width={33} />}
-                  onPress={() => navigation.navigate('Detels')}
+                  icon={<NextIcon height={33} width={33} />}
+                  onPress={() =>
+                    navigation.navigate('Details', {
+                      title: 'Ingredients',
+                      key: 'i',
+                    })
+                  }
                 />
               </View>
             </View>
           </View>
           <View style={styles.blok}>
             {ingredients.map((ingredient, index) => (
-               <TouchableOpacity  onPress={() => navigation.navigate('Detels')}>
-              <View style={styles.blok3} key={index}>
-                <Text style={styles.textcategoria2}>{ingredient.strIngredient}</Text>
-              </View>
+              <TouchableOpacity
+                key={index}
+                onPress={() => navigation.navigate('Details')}>
+                <View style={styles.blok3}>
+                  <Text style={styles.textcategoria2}>
+                    {ingredient.strIngredient}
+                  </Text>
+                </View>
               </TouchableOpacity>
             ))}
           </View>
@@ -316,5 +345,3 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 });
-
-
