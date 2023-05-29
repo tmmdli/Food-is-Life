@@ -6,16 +6,22 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import BackIcon from '../../assets/icons/Back.svg';
 
 const Favorites = () => {
+
+  const navigation = useNavigation();
+  const handleBackPress = () => {
+    navigation.goBack();
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.favtext}>Favorites</Text>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity style={styles.backicon} onPress={handleBackPress}>
           <BackIcon width={25} height={24} />
         </TouchableOpacity>
+        <Text style={styles.favtext}>Favorites</Text>
       </View>
       <ScrollView>
         <View />
@@ -31,9 +37,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'column-reverse',
-    marginLeft: 20,
-    marginTop: 25,
+    flexDirection: 'row',
+    justifyContent:'space-between',
+    width:'70%'
+  
+  },
+  backicon:{
+    marginTop:15
   },
 
   favtext: {
