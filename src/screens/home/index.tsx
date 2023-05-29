@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import AppButton from '../../components/AppButton';
 import BurgerIcon from '../../assets/icons/Burger.svg';
-import NextIcon from '../../assets/icons/Next.svg';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
+import Forwardİcon from '../../assets/icons/Forward.svg';
+import EllipseIcon from '../../assets/icons/Ellipse.svg';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
   const [randomFood, setRandomFood] = useState([]);
@@ -32,7 +33,7 @@ const Home = () => {
   useEffect(() => {
     for (let i = 0; i < 2; i++) {
       requestRandomFood().then(res =>
-        setRandomFood(function (prev) {
+        setRandomFood(prev => {
           return [...prev, res[0]];
         }),
       );
@@ -76,8 +77,9 @@ const Home = () => {
     <SafeAreaView style={styles.Header}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{flex: 1}}
-        contentContainerStyle={{flexGrow: 1}}>
+        style={{ flex: 1 }}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
         <View style={styles.container}>
           <AppButton
             onPress={() => {
@@ -100,12 +102,15 @@ const Home = () => {
             <TouchableOpacity style={styles.random1} key={index}>
               <Image
                 style={styles.randomImage}
-                source={{uri: item.strMealThumb}}
+                source={{ uri: item.strMealThumb }}
               />
               <Text style={styles.random1text} numberOfLines={3}>
                 {item.strMeal}
               </Text>
-              <Text style={styles.detalText}>See Details</Text>
+              <View style={styles.detailsheder}>
+                <Text style={styles.detalText}>See Details</Text>
+                <EllipseIcon height={18} width={18} />
+              </View>
             </TouchableOpacity>
           ))}
         </View>
@@ -114,9 +119,9 @@ const Home = () => {
             <Text style={styles.catigoriaText}>Categories</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
+              <View style={{ justifyContent: 'center' }}>
                 <AppButton
-                  icon={<NextIcon height={33} width={33} />}
+                  icon={<Forwardİcon height={33} width={33} />}
                   onPress={() =>
                     navigation.navigate('Details', {
                       title: 'Categories',
@@ -131,7 +136,13 @@ const Home = () => {
             {categories.map((category, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => navigation.navigate('Details')}>
+                onPress={() =>
+                  navigation.navigate('Details', {
+                    title: 'Categories',
+                    key: 'c',
+                  })
+                }
+              >
                 <View style={styles.blok1}>
                   <Image
                     source={{
@@ -150,11 +161,11 @@ const Home = () => {
             <Text style={styles.catigoriaText}>Area</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
+              <View style={{ justifyContent: 'center' }}>
                 <AppButton
-                  icon={<NextIcon height={33} width={33} />}
+                  icon={<Forwardİcon height={33} width={33} />}
                   onPress={() =>
-                    navigation.navigate('Details', {title: 'Area', key: 'a'})
+                    navigation.navigate('Details', { title: 'Area', key: 'a' })
                   }
                 />
               </View>
@@ -164,7 +175,10 @@ const Home = () => {
             {areas.map((area, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => navigation.navigate('Details')}>
+                onPress={() =>
+                  navigation.navigate('Details', { title: 'Area', key: 'a' })
+                }
+              >
                 <View style={styles.blok2}>
                   <Text style={styles.textcategoria2}>{area.strArea}</Text>
                 </View>
@@ -175,9 +189,9 @@ const Home = () => {
             <Text style={styles.catigoriaText}>Ingredients</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
+              <View style={{ justifyContent: 'center' }}>
                 <AppButton
-                  icon={<NextIcon height={33} width={33} />}
+                  icon={<Forwardİcon height={33} width={33} />}
                   onPress={() =>
                     navigation.navigate('Details', {
                       title: 'Ingredients',
@@ -192,7 +206,13 @@ const Home = () => {
             {ingredients.map((ingredient, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => navigation.navigate('Details')}>
+                onPress={() =>
+                  navigation.navigate('Details', {
+                    title: 'Ingredients',
+                    key: 'i',
+                  })
+                }
+              >
                 <View style={styles.blok3}>
                   <Text style={styles.textcategoria2}>
                     {ingredient.strIngredient}
@@ -236,6 +256,12 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: 'white',
   },
+  detailsheder: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginLeft: 10,
+    flex: 1,
+  },
   random: {
     flexDirection: 'row',
     gap: 30,
@@ -264,7 +290,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '400',
     color: '#000000',
-    marginLeft: 10,
   },
   catigoriaText: {
     fontSize: 22,

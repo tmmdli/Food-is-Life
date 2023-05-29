@@ -11,7 +11,6 @@ export const DrawerNavigator = () => {
     <Drawer.Navigator screenOptions={{header: () => null}}>
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Search" component={Search} />
-      <Drawer.Screen name="favorites" component={favorites} />
     </Drawer.Navigator>
   );
 };

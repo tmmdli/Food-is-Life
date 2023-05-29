@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -6,13 +6,12 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import NextIcon from '../../assets/icons/Next.svg';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import BackIcon from '../../assets/icons/Back.svg';
 
 const Details = () => {
   const route = useRoute();
-  console.log(route);
   const [data, setData] = useState([]);
 
   const navigation = useNavigation();
@@ -26,7 +25,6 @@ const Details = () => {
       `https://www.themealdb.com/api/json/v1/1/list.php?${route.params.key}=list`,
     );
     const data = await response.json();
-    console.log(data);
     setData(data.meals);
   };
 
@@ -35,13 +33,12 @@ const Details = () => {
   };
 
   const getKey = () => {
-    switch (route.params.title) {
-      case 'Categories':
-        return 'strCategory';
-      case 'Area':
-        return 'strArea';
-      default:
-        return 'strIngredient';
+    if (route.params.title === 'Categories') {
+      return 'strCategory';
+    } else if (route.params.title === 'Area') {
+      return 'strArea';
+    } else {
+      return 'strIngredient';
     }
   };
 
@@ -49,19 +46,27 @@ const Details = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.containerheader}>
         <TouchableOpacity onPress={handleBackPress}>
-          <NextIcon width={33} height={33} />
+          <BackIcon width={33} height={33} />
         </TouchableOpacity>
         <Text style={styles.header}>{route.params.title}</Text>
       </View>
       <ScrollView>
-        {data.map(item => (
-          <Text>{item[getKey()]}</Text>
-        ))}
+        <View style={styles.listContainer}>
+          {data.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.itemContainer}
+              onPress={() => console.log(item[getKey()])}
+            >
+              <Text style={styles.itemText}>{item[getKey()]}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
-export default Details;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -71,11 +76,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: 'row',
     marginBottom: 20,
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginLeft: 25,
+    marginLeft: 15,
     color: 'white',
   },
   buttonContainer: {
@@ -87,7 +94,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
-
     borderRadius: 10,
     width: 360,
     height: 50,
@@ -101,22 +107,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 3,
+    gap: 10,
     marginTop: 10,
+    paddingHorizontal: 10,
   },
   itemContainer: {
     alignItems: 'center',
-    width: 360,
-    height: 40,
+    width: 350,
+    height: 60,
     borderRadius: 15,
-    gap: 5,
-    backgroundColor: 'green',
+    backgroundColor: '#2ecc71',
+    marginBottom: 10,
   },
   itemText: {
-    marginTop: 10,
+    marginTop: 15,
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
     color: 'white',
   },
 });
+
+export default Details;
+
