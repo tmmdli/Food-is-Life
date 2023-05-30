@@ -250,12 +250,10 @@ const styles = StyleSheet.create({
   },
   logo: {
     alignItems: 'center',
-<<<<<<< HEAD
-=======
+    // justifyContent: 'center',
   },
   icon: {
     backgroundColor: 'yellow',
->>>>>>> f663a024faa938531b25d9b5c3b2707152145aa9
   },
   RandomText: {
     fontWeight: '800',
