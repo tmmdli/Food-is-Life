@@ -10,6 +10,7 @@ const App = () => {
     <Provider store={store}>
       <SafeAreaProvider style={styles.container}>
         <Root />
+        
       </SafeAreaProvider>
     </Provider>
   );

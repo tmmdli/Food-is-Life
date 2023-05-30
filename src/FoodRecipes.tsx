@@ -8,11 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import VectorIcon from './assets/icons/Vector.svg';
-import FavoriteIcon from './assets/icons/Favorite.svg';
-import CaloriesIcon from './assets/icons/Calories.svg';
-import BasketIcon from './assets/icons/Basket.svg';
-import TimeIcon from './assets/icons/Time.svg';
+import VectorIcon from '../../assets/icons/Vector.svg';
+import FavoriteIcon from '../../assets/icons/Favorite.svg';
+import CaloriesIcon from '../../assets/icons/Calories.svg';
+import BasketIcon from '../../assets/icons/Basket.svg';
+import TimeIcon from '../../assets/icons/Time.svg';
 import {useRoute} from '@react-navigation/core';
 
 const FoodRecipes = () => {
@@ -85,7 +85,7 @@ const FoodRecipes = () => {
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.recipesscreen}>
           <Image
-            source={require('./assets/images/line.png')}
+            source={require('../../assets/images/line.png')}
             style={styles.line}
           />
           <Text style={styles.ingtext}>Ingredients</Text>
