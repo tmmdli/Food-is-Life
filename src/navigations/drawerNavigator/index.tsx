@@ -2,7 +2,6 @@ import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Home from '../../screens/home';
 import Search from '../../screens/search';
-
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigator = () => {
