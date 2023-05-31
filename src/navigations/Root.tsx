@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {DrawerNavigator} from './drawerNavigator';
 import SplashScreen from 'react-native-splash-screen';
+import FoodRecipes from '../screens/fooddetails';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ export const Root = () => {
         screenOptions={{header: () => null}}
         initialRouteName="MainDrawer">
         <Stack.Screen name="MainDrawer" component={DrawerNavigator} />
+        <Stack.Screen name="FoodRecipes" component={FoodRecipes} />
       </Stack.Navigator>
     </NavigationContainer>
   );

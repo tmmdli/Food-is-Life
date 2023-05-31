@@ -72,7 +72,7 @@ const Search = () => {
         ) : (
           food.map((item, index) => (
             <View style={styles.titlecontainer} key={index}>
-              <TouchableOpacity style={styles.downbutton}>
+              <TouchableOpacity style={styles.downbutton} onPress={()=> navigation.navigate('FoodRecipes')}>
                 <Image style={styles.image} source={{uri: item.strMealThumb}} />
                 <Text style={styles.foodtext}>{meal(item.strMeal)}</Text>
               </TouchableOpacity>
