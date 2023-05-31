@@ -4,6 +4,7 @@ import Home from '../../screens/home';
 import Search from '../../screens/search';
 import Favorites from '../../screens/favorites';
 
+
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigator = () => {
