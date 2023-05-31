@@ -18,6 +18,7 @@ import {useRoute} from '@react-navigation/core';
 const FoodRecipes = () => {
   // const route = useRoute();
   // console.log(route.params?.id);
+  
   const [imag, setImag] = useState([]);
   const request = async (url: RequestInfo) => {
     const response = await fetch(url);
@@ -27,9 +28,8 @@ const FoodRecipes = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      //www.themealdb.com/api/json/v1/1/lookup.php?i=52772
       const foodData = await request(
-        'https://www.themealdb.com/api/json/v1/1/search.php?s=Beef',
+        'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52772',
       );
       setImag(foodData.meals.slice(0, 1));
     };
@@ -40,8 +40,7 @@ const FoodRecipes = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
         <TouchableOpacity
-          onPress={() => console.log('')}
-          style={styles.righticonButton}>
+          onPress={() => console.log('')}>
           <VectorIcon width={28} height={28} />
         </TouchableOpacity>
         {imag?.map(item => (
@@ -50,8 +49,7 @@ const FoodRecipes = () => {
           </Text>
         ))}
         <TouchableOpacity
-          onPress={() => console.log('')}
-          style={styles.lefticonButton}>
+          onPress={() => console.log('')}>
           <FavoriteIcon width={28} height={28} />
         </TouchableOpacity>
       </View>
@@ -92,7 +90,7 @@ const FoodRecipes = () => {
           <View style={styles.ingredientsContainer}>
             {imag?.map((item, index) => (
               <View style={styles.foodheader} key={index}>
-                <Text style={styles.ingredients}>{item.strInstructions}</Text>
+                <Text style={styles.ingredients}>{item.strIngredient2}</Text>
               </View>
             ))}
           </View>
@@ -116,7 +114,6 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: '95%',
-    backgroundColor: 'red',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

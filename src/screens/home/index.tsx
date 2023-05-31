@@ -98,10 +98,10 @@ const Home = ({}) => {
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
               <View style={{justifyContent: 'center'}}>
-                <AppButton
+                {/* <AppButton
                   icon={<VectorIcon height={28} width={28} />}
                   onPress={Area}
-                />
+                /> */}
               </View>
             </View>
           </View>
