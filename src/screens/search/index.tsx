@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { } from 'react-test-renderer';;
 import BackIcon from '../../assets/icons/Back.svg';
 import SearchIcon from '../../assets/icons/Search.svg';
 import { useNavigation } from '@react-navigation/native';
@@ -44,7 +43,7 @@ const Search = () => {
   }
   const onDeleteFavori = (item) => {
     console.log(item);
-    
+
     dispatch(deleteFavoriteFood(item));
   }
   return (
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: '#F8F2F2',
     fontWeight: '700',
-    fontSize: 24,
+    fontSize: 35,
   },
   childcontainer: {
     flexDirection: 'row',
@@ -127,7 +126,7 @@ const styles = StyleSheet.create({
     width: 288,
     height: 20,
     color: '#FAFDFF',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '400',
   },
   title: {
@@ -173,7 +172,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   foodtext: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
     color: 'black',
     alignSelf: 'center',
