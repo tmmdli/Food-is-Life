@@ -84,9 +84,8 @@ const Home = () => {
           <AppButton
             onPress={() => {
               navigation.toggleDrawer();
-            }}
-            icon={<BurgerIcon />}
-          />
+            } }
+            icon={<BurgerIcon />} style={undefined}          />
           <View style={styles.containerhader}>
             <Text style={styles.hader}>Food Recipes</Text>
           </View>
@@ -121,14 +120,11 @@ const Home = () => {
               <Text style={styles.Alltext}>All</Text>
               <View style={{ justifyContent: 'center' }}>
                 <AppButton
-                  icon={<Forwardİcon height={33} width={33} />}
-                  onPress={() =>
-                    navigation.navigate('Details', {
-                      title: 'Categories',
-                      key: 'c',
-                    })
-                  }
-                />
+                  icon={<Forwardİcon height={'30'} width={'25'} />}
+                  onPress={() => navigation.navigate('Details', {
+                    title: 'Categories',
+                    key: 'c',
+                  })} style={undefined}                />
               </View>
             </View>
           </View>
@@ -163,11 +159,8 @@ const Home = () => {
               <Text style={styles.Alltext}>All</Text>
               <View style={{ justifyContent: 'center' }}>
                 <AppButton
-                  icon={<Forwardİcon height={30} width={30} />}
-                  onPress={() =>
-                    navigation.navigate('Details', { title: 'Area', key: 'a' })
-                  }
-                />
+                  icon={<Forwardİcon height={'30'} width={'25'} />}
+                  onPress={() => navigation.navigate('Details', { title: 'Area', key: 'a' })} style={undefined}                />
               </View>
             </View>
           </View>
@@ -191,14 +184,11 @@ const Home = () => {
               <Text style={styles.Alltext}>All</Text>
               <View style={{ justifyContent: 'center' }}>
                 <AppButton
-                  icon={<Forwardİcon height={33} width={33} />}
-                  onPress={() =>
-                    navigation.navigate('Details', {
-                      title: 'Ingredients',
-                      key: 'i',
-                    })
-                  }
-                />
+                  icon={<Forwardİcon height={'30'} width={'25'} />}
+                  onPress={() => navigation.navigate('Details', {
+                    title: 'Ingredients',
+                    key: 'i',
+                  })} style = {undefined}                />
               </View>
             </View>
           </View>
@@ -312,6 +302,7 @@ const styles = StyleSheet.create({
   },
   AllButton: {
     flexDirection: 'row',
+    gap:7
   },
   blok: {
     flexDirection: 'row',

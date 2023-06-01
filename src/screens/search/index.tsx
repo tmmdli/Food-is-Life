@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: '#F8F2F2',
     fontWeight: '700',
-    fontSize: 35,
+    fontSize: 34,
   },
   childcontainer: {
     flexDirection: 'row',

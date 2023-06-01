@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
 
   favtext: {
-    fontSize: 40,
+    fontSize: 34,
     color: '#F8F2F2',
     alignSelf: 'center',
     fontWeight: 'bold',
