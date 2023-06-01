@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {DrawerNavigator} from './drawerNavigator';
 import SplashScreen from 'react-native-splash-screen';
-import FoodRecipes from '../screens/fooddetails';
+import FoodRecipes from '../screens/foodDetails';
 
 const Stack = createStackNavigator();
 
