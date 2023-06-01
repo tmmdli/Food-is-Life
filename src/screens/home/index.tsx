@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Image,
@@ -12,8 +12,8 @@ import AppButton from '../../components/AppButton';
 import BurgerIcon from '../../assets/icons/Burger.svg';
 import Forwardİcon from '../../assets/icons/Forward.svg';
 import EllipseIcon from '../../assets/icons/Ellipse.svg';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
   const [randomFood, setRandomFood] = useState([]);
@@ -77,15 +77,16 @@ const Home = () => {
     <SafeAreaView style={styles.Header}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ flex: 1 }}
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
+        style={{flex: 1}}
+        contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.container}>
           <AppButton
             onPress={() => {
               navigation.toggleDrawer();
-            } }
-            icon={<BurgerIcon />} style={undefined}          />
+            }}
+            icon={<BurgerIcon />}
+            style={undefined}
+          />
           <View style={styles.containerhader}>
             <Text style={styles.hader}>Food Recipes</Text>
           </View>
@@ -98,10 +99,13 @@ const Home = () => {
         </View>
         <View style={styles.random}>
           {randomFood.map((item, index) => (
-            <TouchableOpacity style={styles.random1} key={index}>
+            <TouchableOpacity
+              style={styles.random1}
+              key={index}
+              onPress={() => navigation.navigate('FoodRecipes')}>
               <Image
                 style={styles.randomImage}
-                source={{ uri: item.strMealThumb }}
+                source={{uri: item.strMealThumb}}
               />
               <Text style={styles.random1text} numberOfLines={3}>
                 {item.strMeal}
@@ -118,13 +122,17 @@ const Home = () => {
             <Text style={styles.catigoriaText}>Categories</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{ justifyContent: 'center' }}>
+              <View style={{justifyContent: 'center'}}>
                 <AppButton
                   icon={<Forwardİcon height={'30'} width={'25'} />}
-                  onPress={() => navigation.navigate('Details', {
-                    title: 'Categories',
-                    key: 'c',
-                  })} style={undefined}                />
+                  onPress={() =>
+                    navigation.navigate('Details', {
+                      title: 'Categories',
+                      key: 'c',
+                    })
+                  }
+                  style={undefined}
+                />
               </View>
             </View>
           </View>
@@ -137,8 +145,7 @@ const Home = () => {
                     title: 'Categories',
                     key: 'c',
                   })
-                }
-              >
+                }>
                 <View style={styles.blok1}>
                   <Image
                     source={{
@@ -157,10 +164,14 @@ const Home = () => {
             <Text style={styles.catigoriaText}>Area</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{ justifyContent: 'center' }}>
+              <View style={{justifyContent: 'center'}}>
                 <AppButton
                   icon={<Forwardİcon height={'30'} width={'25'} />}
-                  onPress={() => navigation.navigate('Details', { title: 'Area', key: 'a' })} style={undefined}                />
+                  onPress={() =>
+                    navigation.navigate('Details', {title: 'Area', key: 'a'})
+                  }
+                  style={undefined}
+                />
               </View>
             </View>
           </View>
@@ -169,9 +180,8 @@ const Home = () => {
               <TouchableOpacity
                 key={index}
                 onPress={() =>
-                  navigation.navigate('Details', { title: 'Area', key: 'a' })
-                }
-              >
+                  navigation.navigate('Details', {title: 'Area', key: 'a'})
+                }>
                 <View style={styles.blok2}>
                   <Text style={styles.textcategoria2}>{area.strArea}</Text>
                 </View>
@@ -182,13 +192,17 @@ const Home = () => {
             <Text style={styles.catigoriaText}>Ingredients</Text>
             <View style={styles.AllButton}>
               <Text style={styles.Alltext}>All</Text>
-              <View style={{ justifyContent: 'center' }}>
+              <View style={{justifyContent: 'center'}}>
                 <AppButton
                   icon={<Forwardİcon height={'30'} width={'25'} />}
-                  onPress={() => navigation.navigate('Details', {
-                    title: 'Ingredients',
-                    key: 'i',
-                  })} style = {undefined}                />
+                  onPress={() =>
+                    navigation.navigate('Details', {
+                      title: 'Ingredients',
+                      key: 'i',
+                    })
+                  }
+                  style={undefined}
+                />
               </View>
             </View>
           </View>
@@ -201,8 +215,7 @@ const Home = () => {
                     title: 'Ingredients',
                     key: 'i',
                   })
-                }
-              >
+                }>
                 <View style={styles.blok3}>
                   <Text style={styles.textcategoria2}>
                     {ingredient.strIngredient}
@@ -302,7 +315,7 @@ const styles = StyleSheet.create({
   },
   AllButton: {
     flexDirection: 'row',
-    gap:7
+    gap: 7,
   },
   blok: {
     flexDirection: 'row',

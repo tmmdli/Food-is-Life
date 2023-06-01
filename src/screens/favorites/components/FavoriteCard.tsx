@@ -1,37 +1,38 @@
-import React from "react";
-import { View, TouchableOpacity, Image, Text, StyleSheet } from 'react-native';
-import NoteIcon from '../../../assets/icons/Note.svg'
-import UnnoteIcon from '../../../assets/icons/Unnote.svg'
-import { mealFormatter } from "../../../utils/helpers/mealFormatter";
+import React from 'react';
+import {View, TouchableOpacity, Image, Text, StyleSheet} from 'react-native';
+import NoteIcon from '../../../assets/icons/Note.svg';
+import UnnoteIcon from '../../../assets/icons/Unnote.svg';
+import {mealFormatter} from '../../../utils/helpers/mealFormatter';
+import {useNavigation} from '@react-navigation/native';
 
+const FavoriteCard = ({item, disabled, onAddFavori, onDeleteFavori}) => {
+  console.log('onAddFavori', onAddFavori);
+  console.log('onDeleteFavori', onDeleteFavori);
+  const navigation = useNavigation();
 
-
-const FavoriteCard = ({ item, disabled, onAddFavori, onDeleteFavori }) => {
-  console.log("onAddFavori", onAddFavori);
-  console.log("onDeleteFavori", onDeleteFavori);
-  
   const onPress = () => {
-    console.log("disabled", disabled);
-    disabled ? onDeleteFavori(item) : onAddFavori(item)
-  }
+    console.log('disabled', disabled);
+    disabled ? onDeleteFavori(item) : onAddFavori(item);
+  };
 
   return (
-    <View style={styles.titlecontainer} >
-      <TouchableOpacity style={styles.downbutton}>
-        <Image style={styles.image} source={{ uri: item.strMealThumb }} />
+    <View style={styles.titlecontainer}>
+      <TouchableOpacity
+        style={styles.downbutton}
+        onPress={() => navigation.navigate('FoodRecipes')}>
+        <Image style={styles.image} source={{uri: item.strMealThumb}} />
         <Text style={styles.foodtext}>{mealFormatter(item.strMeal)}</Text>
       </TouchableOpacity>
       {onAddFavori && onDeleteFavori && (
-        <TouchableOpacity
-          style={styles.noteicon}
-          onPress={onPress}>
-          {disabled ?
-            <UnnoteIcon width={40} height={35} /> :
+        <TouchableOpacity style={styles.noteicon} onPress={onPress}>
+          {disabled ? (
+            <UnnoteIcon width={40} height={35} />
+          ) : (
             <NoteIcon width={40} height={35} />
-          }
-        </TouchableOpacity>)}
+          )}
+        </TouchableOpacity>
+      )}
     </View>
-
   );
 };
 export default FavoriteCard;
@@ -70,5 +71,4 @@ const styles = StyleSheet.create({
     right: 40,
     top: 12,
   },
-
 });

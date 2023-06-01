@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -10,24 +10,27 @@ import {
 } from 'react-native';
 import BackIcon from '../../assets/icons/Back.svg';
 import SearchIcon from '../../assets/icons/Search.svg';
-import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import FavoriteCard from '../favorites/components/FavoriteCard';
-import { useDispatch, useSelector } from 'react-redux';
-import { addFavoriteFood, deleteFavoriteFood } from '../favorites/redux/favoriteSlice';
-import { RootState } from '../../redux/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addFavoriteFood,
+  deleteFavoriteFood,
+} from '../favorites/redux/favoriteSlice';
+import {RootState} from '../../redux/store';
 
 const apiUrl = 'http://www.themealdb.com/api/json/v1/1/search.php?s=';
 
 const Search = () => {
   const dispatch = useDispatch();
-  const favorite = useSelector((state: RootState) => state.favorite)
+  const favorite = useSelector((state: RootState) => state.favorite);
   const [value, setValue] = useState('');
   const [food, setFood] = useState([]);
   const navigation = useNavigation();
   const scrollRef = useRef<ScrollView>(null);
   const onGetData = async () => {
-    const response = await fetch(apiUrl + value, { method: 'GET' });
+    const response = await fetch(apiUrl + value, {method: 'GET'});
     const result = await response.json();
     setFood(result.meals);
   };
@@ -38,14 +41,14 @@ const Search = () => {
   const handleBackPress = () => {
     navigation.goBack();
   };
-  const onAddFavori = (item) => {
+  const onAddFavori = item => {
     dispatch(addFavoriteFood(item));
-  }
-  const onDeleteFavori = (item) => {
+  };
+  const onDeleteFavori = item => {
     console.log(item);
 
     dispatch(deleteFavoriteFood(item));
-  }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.childcontainer}>
@@ -82,7 +85,8 @@ const Search = () => {
               item={item}
               onAddFavori={onAddFavori}
               onDeleteFavori={onDeleteFavori}
-              disabled={favorite.favoriteFoodsId.includes(item.idMeal)} />
+              disabled={favorite.favoriteFoodsId.includes(item.idMeal)}
+            />
           ))
         )}
       </ScrollView>
