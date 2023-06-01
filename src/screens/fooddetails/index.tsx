@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   SafeAreaView,
@@ -13,8 +13,8 @@ import FavoriteIcon from '../../assets/icons/Favorite.svg';
 import CaloriesIcon from '../../assets/icons/Calories.svg';
 import BasketIcon from '../../assets/icons/Basket.svg';
 import TimeIcon from '../../assets/icons/Time.svg';
-import { useRoute } from '@react-navigation/core';
-import { useNavigation } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/core';
+import {useNavigation} from '@react-navigation/native';
 
 const FoodRecipes = () => {
   // const route = useRoute();
@@ -22,15 +22,15 @@ const FoodRecipes = () => {
 
   const navigation = useNavigation();
   const [meals, setMeals] = useState([]);
-  console.log("meals", JSON.stringify(meals));
+  console.log('meals', JSON.stringify(meals));
 
-  const request = async (url) => {
+  const request = async url => {
     const response = await fetch(url);
     const data = await response.json();
     return data;
   };
 
-  const sumIngredients = (ingredients) => {
+  const sumIngredients = ingredients => {
     let sum = 0;
     for (let i = 0; i < ingredients.length; i++) {
       const ingredient = ingredients[i];
@@ -56,11 +56,10 @@ const FoodRecipes = () => {
   //   }
   // }, [id]);
 
-
   useEffect(() => {
     const fetchData = async () => {
       const foodData = await request(
-        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=52777`,
+        'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52777',
       );
       setMeals(foodData.meals.slice(0, 1));
     };
@@ -74,17 +73,15 @@ const FoodRecipes = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity
-          onPress={handleBackPress}>
+        <TouchableOpacity onPress={handleBackPress}>
           <VectorIcon width={28} height={28} />
         </TouchableOpacity>
         {meals?.map(item => (
-          <Text style={[styles.recipestext, { flex: 1, textAlign: 'center' }]}>
+          <Text style={[styles.recipestext, {flex: 1, textAlign: 'center'}]}>
             {item.strMeal}
           </Text>
         ))}
-        <TouchableOpacity
-          onPress={() => console.log('')}>
+        <TouchableOpacity onPress={() => console.log('')}>
           <FavoriteIcon width={28} height={28} />
         </TouchableOpacity>
       </View>
@@ -128,7 +125,7 @@ const FoodRecipes = () => {
           <View style={styles.ingredientsContainer}>
             {meals?.map((item, index) => (
               <View style={styles.foodheader} key={index}>
-                {Object.keys(item).map((key) => {
+                {Object.keys(item).map(key => {
                   if (key.includes('strIngredient') && item[key]) {
                     return (
                       <Text style={styles.ingredients} key={key}>
@@ -215,7 +212,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000000',
     marginBottom: 5,
-
   },
   directext: {
     fontSize: 24,

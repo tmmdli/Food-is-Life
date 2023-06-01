@@ -8,16 +8,23 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {} from 'react-test-renderer';
-import VectorIcon from '../../assets/icons/Vector.svg';
 import BackIcon from '../../assets/icons/Back.svg';
 import SearchIcon from '../../assets/icons/Search.svg';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import FavoriteCard from '../favorites/components/FavoriteCard';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addFavoriteFood,
+  deleteFavoriteFood,
+} from '../favorites/redux/favoriteSlice';
+import {RootState} from '../../redux/store';
 
 const apiUrl = 'http://www.themealdb.com/api/json/v1/1/search.php?s=';
 
 const Search = () => {
+  const dispatch = useDispatch();
+  const favorite = useSelector((state: RootState) => state.favorite);
   const [value, setValue] = useState('');
   const [food, setFood] = useState([]);
   const navigation = useNavigation();
@@ -30,21 +37,23 @@ const Search = () => {
   const onChangeText = (text: string) => {
     setValue(text);
   };
-  const meal = strMeal => {
-    if (strMeal.length > 30) {
-      return strMeal.substring(0, 30) + '...';
-    } else {
-      return strMeal;
-    }
-  };
+
   const handleBackPress = () => {
     navigation.goBack();
+  };
+  const onAddFavori = item => {
+    dispatch(addFavoriteFood(item));
+  };
+  const onDeleteFavori = item => {
+    console.log(item);
+
+    dispatch(deleteFavoriteFood(item));
   };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.childcontainer}>
         <TouchableOpacity onPress={handleBackPress}>
-          <VectorIcon width={25} height={24} />
+          <BackIcon width={25} height={24} />
         </TouchableOpacity>
         <Text style={styles.textSearch}>Search</Text>
       </View>
@@ -71,15 +80,13 @@ const Search = () => {
           <Text style={styles.noResultsText}>Food not found !</Text>
         ) : (
           food.map((item, index) => (
-            <View style={styles.titlecontainer} key={index}>
-              <TouchableOpacity style={styles.downbutton} onPress={()=> navigation.navigate('FoodRecipes')}>
-                <Image style={styles.image} source={{uri: item.strMealThumb}} />
-                <Text style={styles.foodtext}>{meal(item.strMeal)}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.noteicon}>
-                <BackIcon width={25} height={24} />
-              </TouchableOpacity>
-            </View>
+            <FavoriteCard
+              key={index}
+              item={item}
+              onAddFavori={onAddFavori}
+              onDeleteFavori={onDeleteFavori}
+              disabled={favorite.favoriteFoodsId.includes(item.idMeal)}
+            />
           ))
         )}
       </ScrollView>
@@ -97,7 +104,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: '#F8F2F2',
     fontWeight: '700',
-    fontSize: 24,
+    fontSize: 34,
   },
   childcontainer: {
     flexDirection: 'row',
@@ -123,7 +130,7 @@ const styles = StyleSheet.create({
     width: 288,
     height: 20,
     color: '#FAFDFF',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '400',
   },
   title: {
@@ -169,7 +176,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   foodtext: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
     color: 'black',
     alignSelf: 'center',
