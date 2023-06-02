@@ -17,13 +17,15 @@ import {useRoute} from '@react-navigation/core';
 import {useNavigation} from '@react-navigation/native';
 
 const FoodRecipes = () => {
-  // const route = useRoute();
-  // const { id } = route.params || {};
+  const route = useRoute();
+  const { idMeal } = route.params || {};
+console.log(route.params);
+
 
   const navigation = useNavigation();
   const [meals, setMeals] = useState([]);
-  console.log('meals', JSON.stringify(meals));
-
+ 
+ 
   const request = async url => {
     const response = await fetch(url);
     const data = await response.json();
@@ -41,30 +43,32 @@ const FoodRecipes = () => {
     return sum;
   };
 
-  // useEffect(() => {
-  //   const fetchRecipeData = async () => {
-  //     try {
-  //       const data = await request(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-  //       setMeals(data.meals.slice(0, 1));
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   if (id) {
-  //     fetchRecipeData();
-  //   }
-  // }, [id]);
-
+ 
   useEffect(() => {
-    const fetchData = async () => {
-      const foodData = await request(
-        'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52777',
-      );
-      setMeals(foodData.meals.slice(0, 1));
+    const fetchRecipeData = async () => {
+      try {
+        const data = await request(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${route.params.idMeal}`);
+        setMeals(data.meals.slice(0, 1));
+      } catch (error) {
+        console.log(error);
+      }
     };
-    fetchData();
-  }, []);
+
+    if (idMeal) {
+      fetchRecipeData();
+    }
+  }, [route.params.idMeal]);
+
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const foodData = await request(
+  //       'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52891',
+  //     );
+  //     setMeals(foodData.meals.slice(0, 1));
+  //   };
+  //   fetchData();
+  // }, []);
 
   const handleBackPress = () => {
     navigation.goBack();

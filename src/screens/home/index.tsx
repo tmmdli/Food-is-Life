@@ -67,12 +67,15 @@ const Home = () => {
     setIngredients(data.meals.slice(0, 3));
   };
 
+ 
   useEffect(() => {
     fetchCategories();
     fetchAreas();
     fetchIngredients();
   }, []);
 
+  console.log("idMeal", randomFood[0]?.idMeal);
+  
   return (
     <SafeAreaView style={styles.Header}>
       <ScrollView
@@ -102,7 +105,7 @@ const Home = () => {
             <TouchableOpacity
               style={styles.random1}
               key={index}
-              onPress={() => navigation.navigate('FoodRecipes')}>
+              onPress={() => navigation.navigate('FoodRecipes',{idMeal: item.idMeal})}>
               <Image
                 style={styles.randomImage}
                 source={{uri: item.strMealThumb}}
@@ -276,7 +279,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   random1: {
-    backgroundColor: 'white',
+    backgroundColor: '#F4E4CD',
     width: 140,
     height: 240,
     borderRadius: 20,
@@ -324,7 +327,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   blok1: {
-    backgroundColor: 'white',
+    backgroundColor: '#F4E4CD',
     width: 110,
     height: 60,
     borderRadius: 10,
@@ -333,7 +336,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   blok2: {
-    backgroundColor: 'white',
+    backgroundColor: '#F4E4CD',
     width: 110,
     height: 60,
     borderRadius: 10,
@@ -342,7 +345,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   blok3: {
-    backgroundColor: 'white',
+    backgroundColor: '#F4E4CD',
     width: 110,
     height: 60,
     borderRadius: 10,

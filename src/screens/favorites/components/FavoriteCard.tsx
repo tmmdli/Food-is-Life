@@ -19,7 +19,7 @@ const FavoriteCard = ({item, disabled, onAddFavori, onDeleteFavori}) => {
     <View style={styles.titlecontainer}>
       <TouchableOpacity
         style={styles.downbutton}
-        onPress={() => navigation.navigate('FoodRecipes')}>
+        onPress={() => navigation.navigate('FoodRecipes',{idMeal: item.idMeal})}>
         <Image style={styles.image} source={{uri: item.strMealThumb}} />
         <Text style={styles.foodtext}>{mealFormatter(item.strMeal)}</Text>
       </TouchableOpacity>
