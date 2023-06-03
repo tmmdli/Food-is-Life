@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 60,
     borderRadius: 15,
-    backgroundColor: '#2ecc71',
+    backgroundColor: '#F4E4CD',
     marginBottom: 10,
   },
   itemText: {
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
   },
 });
 
