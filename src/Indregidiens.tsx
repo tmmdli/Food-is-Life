@@ -1,5 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, StyleSheet, View,Text,TouchableOpacity } from "react-native";
+
+const fetchCatagories = async () => {
+    const response = await fetch (
+        'http://www.themealdb.com/api/json/v1/1/filter.php?c'
+    );
+    const data = await response.json ();
+    setCatagories(data.meals.slience(0,3));
+};
+
+const fetchAreas = async  () => {
+    const response = await fetch (
+        'http:www.themealdb.com/api/json/v1/1/filter.php?a='
+    );
+    const data = await response.json ();
+    setAreas (data.meals.slience(0,3));
+};
+
+const fetchIngridients = async () => {
+    const response = await fetch (
+        'http://www.themealdb.com/api/json/v1/1/filter.php?i='
+    );
+    const data = await response.json ();
+    setIngridients (data.meals.slience (0,3));
+};
+
+  useEffect(() => {
+    fetchCatagories();
+    fetchAreas();
+    fetchIngridients();
+  })
+
 
 const Indregidiens = () => {
     return (
@@ -35,6 +66,7 @@ const styles =  StyleSheet.create({
    button:{
     backgroundColor:'#F4E4CD',
     width:332,
-    height:160
+    height:160,
+    borderRadius:20
    }
 })
