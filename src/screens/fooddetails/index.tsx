@@ -8,24 +8,22 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import VectorIcon from '../../assets/icons/Back.svg';
+import VectorIcon from '../../assets/icons/back.svg';
 import FavoriteIcon from '../../assets/icons/Favorite.svg';
 import CaloriesIcon from '../../assets/icons/Calories.svg';
 import BasketIcon from '../../assets/icons/Basket.svg';
-import TimeIcon from '../../assets/icons/Time.svg';
+import TimeIcon from '../../assets/icons/time.svg';
 import {useRoute} from '@react-navigation/core';
 import {useNavigation} from '@react-navigation/native';
 
 const FoodRecipes = () => {
   const route = useRoute();
-  const { idMeal } = route.params || {};
-console.log(route.params);
-
+  const {idMeal} = route.params || {};
+  console.log(route.params);
 
   const navigation = useNavigation();
   const [meals, setMeals] = useState([]);
- 
- 
+
   const request = async url => {
     const response = await fetch(url);
     const data = await response.json();
@@ -43,11 +41,12 @@ console.log(route.params);
     return sum;
   };
 
- 
   useEffect(() => {
     const fetchRecipeData = async () => {
       try {
-        const data = await request(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${route.params.idMeal}`);
+        const data = await request(
+          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${route.params.idMeal}`,
+        );
         setMeals(data.meals.slice(0, 1));
       } catch (error) {
         console.log(error);
@@ -58,7 +57,6 @@ console.log(route.params);
       fetchRecipeData();
     }
   }, [route.params.idMeal]);
-
 
   // useEffect(() => {
   //   const fetchData = async () => {

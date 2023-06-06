@@ -7,19 +7,18 @@ import {
   View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import BackIcon from '../../assets/icons/Back.svg';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import BackIcon from '../../assets/icons/back.svg';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store';
 import FavoriteCard from './components/FavoriteCard';
 
 const Favorites = () => {
-
   const navigation = useNavigation();
   const handleBackPress = () => {
     navigation.goBack();
   };
-  const {favoriteFoods}= useSelector((state:RootState)=>state.favorite);
-  console.log(favoriteFoods)
+  const {favoriteFoods} = useSelector((state: RootState) => state.favorite);
+  console.log(favoriteFoods);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -28,12 +27,12 @@ const Favorites = () => {
         </TouchableOpacity>
         <Text style={styles.favtext}>Favorites</Text>
       </View>
-      <ScrollView >
+      <ScrollView>
         {favoriteFoods === null || favoriteFoods.length === 0 ? (
           <Text style={styles.noResultsText}>Food not found !</Text>
         ) : (
           favoriteFoods.map((item, index) => (
-            <FavoriteCard  key={index}  item={item}/>
+            <FavoriteCard key={index} item={item} />
           ))
         )}
       </ScrollView>
@@ -49,12 +48,11 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent:'space-between',
-    width:'70%'
-  
+    justifyContent: 'space-between',
+    width: '70%',
   },
-  backicon:{
-    marginTop:15
+  backicon: {
+    marginTop: 15,
   },
 
   favtext: {

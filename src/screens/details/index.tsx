@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,9 +6,9 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import BackIcon from '../../assets/icons/Back.svg';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import BackIcon from '../../assets/icons/back.svg';
 
 const Details = () => {
   const route = useRoute();
@@ -56,8 +56,7 @@ const Details = () => {
             <TouchableOpacity
               key={index}
               style={styles.itemContainer}
-              onPress={() => console.log(item[getKey()])}
-            >
+              onPress={() => console.log(item[getKey()])}>
               <Text style={styles.itemText}>{item[getKey()]}</Text>
             </TouchableOpacity>
           ))}
@@ -129,4 +128,3 @@ const styles = StyleSheet.create({
 });
 
 export default Details;
-

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import BackIcon from '../../assets/icons/Back.svg';
+import BackIcon from '../../assets/icons/back.svg';
 import SearchIcon from '../../assets/icons/Search.svg';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
