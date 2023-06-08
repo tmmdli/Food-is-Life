@@ -6,12 +6,9 @@ import {mealFormatter} from '../../../utils/helpers/mealFormatter';
 import {useNavigation} from '@react-navigation/native';
 
 const FavoriteCard = ({item, disabled, onAddFavori, onDeleteFavori}) => {
-  console.log('onAddFavori', onAddFavori);
-  console.log('onDeleteFavori', onDeleteFavori);
   const navigation = useNavigation();
 
   const onPress = () => {
-    console.log('disabled', disabled);
     disabled ? onDeleteFavori(item) : onAddFavori(item);
   };
 
@@ -19,7 +16,9 @@ const FavoriteCard = ({item, disabled, onAddFavori, onDeleteFavori}) => {
     <View style={styles.titlecontainer}>
       <TouchableOpacity
         style={styles.downbutton}
-        onPress={() => navigation.navigate('FoodRecipes',{idMeal: item.idMeal})}>
+        onPress={() =>
+          navigation.navigate('FoodRecipes', {idMeal: item.idMeal})
+        }>
         <Image style={styles.image} source={{uri: item.strMealThumb}} />
         <Text style={styles.foodtext}>{mealFormatter(item.strMeal)}</Text>
       </TouchableOpacity>

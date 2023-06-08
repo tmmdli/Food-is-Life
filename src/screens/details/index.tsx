@@ -8,14 +8,15 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import BackIcon from '../../assets/icons/back.svg';
+import BackIcon from '../../assets/icons/back-white.svg';
+import CakeImage from '../../assets/images/cake.svg';
 
 const Details = () => {
   const route = useRoute();
   const [data, setData] = useState([]);
 
   const navigation = useNavigation();
-
+  console.log(route);
   useEffect(() => {
     fetchData();
   }, [route.params.key]);
@@ -24,44 +25,51 @@ const Details = () => {
     const response = await fetch(
       `https://www.themealdb.com/api/json/v1/1/list.php?${route.params.key}=list`,
     );
-    const data = await response.json();
-    setData(data.meals);
+    const responseData = await response.json();
+    console.log(responseData);
+    setData(responseData.meals);
   };
 
   const handleBackPress = () => {
     navigation.goBack();
   };
 
-  const getKey = () => {
-    if (route.params.title === 'Categories') {
-      return 'strCategory';
-    } else if (route.params.title === 'Area') {
-      return 'strArea';
-    } else {
-      return 'strIngredient';
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.containerheader}>
-        <TouchableOpacity onPress={handleBackPress}>
-          <BackIcon width={33} height={33} />
+      <View style={styles.header}>
+        <TouchableOpacity activeOpacity={0.75} onPress={handleBackPress}>
+          <BackIcon width={36} height={36} />
         </TouchableOpacity>
-        <Text style={styles.header}>{route.params.title}</Text>
+        <Text style={styles.title}>{route.params.title}</Text>
       </View>
-      <ScrollView>
+      <ScrollView style={{zIndex: 1}} showsVerticalScrollIndicator={false}>
         <View style={styles.listContainer}>
-          {data.map((item, index) => (
+          {data.map((elem, index) => (
             <TouchableOpacity
               key={index}
-              style={styles.itemContainer}
-              onPress={() => console.log(item[getKey()])}>
-              <Text style={styles.itemText}>{item[getKey()]}</Text>
+              style={styles.element}
+              onPress={() =>
+                navigation.navigate({
+                  name: 'FoodList',
+                  merge: true,
+                  params: {
+                    title:
+                      route.params.title + ' / ' + elem[route.params.itemKey],
+                    key: route.params.key,
+                    itemKey: elem[route.params.itemKey],
+                  },
+                })
+              }>
+              <Text style={styles.elementText}>
+                {elem[route.params.itemKey]}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
+      <View style={styles.backgroundImage}>
+        <CakeImage />
+      </View>
     </SafeAreaView>
   );
 };
@@ -69,20 +77,30 @@ const Details = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(8 ,18 , 51,  0.54)',
-  },
-  containerheader: {
-    marginTop: 10,
-    flexDirection: 'row',
-    marginBottom: 20,
-    alignItems: 'center',
-    paddingHorizontal: 10,
+    backgroundColor: '#FE724C',
+    paddingHorizontal: 16,
   },
   header: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    flexDirection: 'row',
+    alignItems: 'center',
+    zIndex: 1,
+  },
+  element: {
+    borderRadius: 12,
+    padding: 12,
+    backgroundColor: '#F2F2F2',
+    zIndex: 1,
+  },
+  elementText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#272D2F',
+  },
+  title: {
+    fontSize: 30,
+    fontFamily: 'DancingScript-Bold',
     marginLeft: 15,
-    color: 'white',
+    color: '#F2F2F2',
   },
   buttonContainer: {
     justifyContent: 'center',
@@ -103,12 +121,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   listContainer: {
+    marginTop: 34,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center',
+    zIndex: 1,
     gap: 10,
-    marginTop: 10,
-    paddingHorizontal: 10,
   },
   itemContainer: {
     alignItems: 'center',
@@ -124,6 +141,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: 'black',
+  },
+  backgroundImage: {
+    position: 'absolute',
+    bottom: -400,
+    top: 0,
+    left: 0,
+    right: 0,
   },
 });
 

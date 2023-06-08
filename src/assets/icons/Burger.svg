@@ -1,3 +1,8 @@
-<svg width="25" height="31" viewBox="0 0 25 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.78125 6.54023H21.0938C21.5254 6.54023 21.875 6.05243 21.875 5.45019V1.09004C21.875 0.487792 21.5254 0 21.0938 0H0.78125C0.349609 0 0 0.487792 0 1.09004V5.45019C0 6.05243 0.349609 6.54023 0.78125 6.54023ZM24.2188 11.9904H3.90625C3.47461 11.9904 3.125 12.4782 3.125 13.0805V17.4406C3.125 18.0429 3.47461 18.5306 3.90625 18.5306H24.2188C24.6504 18.5306 25 18.0429 25 17.4406V13.0805C25 12.4782 24.6504 11.9904 24.2188 11.9904ZM21.0938 23.9808H0.78125C0.349609 23.9808 0 24.4686 0 25.0709V29.431C0 30.0333 0.349609 30.5211 0.78125 30.5211H21.0938C21.5254 30.5211 21.875 30.0333 21.875 29.431V25.0709C21.875 24.4686 21.5254 23.9808 21.0938 23.9808Z" fill="white"/>
+<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M22 7L9 7" stroke="#262F56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M22 12.5L9 12.5" stroke="#262F56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M22 18L9 18" stroke="#262F56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="4" cy="7" r="1" stroke="#262F56" stroke-width="2"/>
+<circle cx="4" cy="12.5" r="1" stroke="#262F56" stroke-width="2"/>
+<circle cx="4" cy="18" r="1" stroke="#262F56" stroke-width="2"/>
 </svg>

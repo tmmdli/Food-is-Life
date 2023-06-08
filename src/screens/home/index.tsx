@@ -7,13 +7,22 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import AppButton from '../../components/AppButton';
-import BurgerIcon from '../../assets/icons/Burger.svg';
+import BurgerIcon from '../../assets/icons/burger.svg';
 import Forwardİcon from '../../assets/icons/Forward.svg';
-import EllipseIcon from '../../assets/icons/Ellipse.svg';
+import RightIcon from '../../assets/icons/right.svg';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
+import Logo from '../../assets/images/logo.svg';
+import {Filters} from './components/Filters';
+import Lottie from 'lottie-react-native';
+import {
+  AppBottomSheet,
+  AppBottomSheetRef,
+} from '../../components/AppBottomSheet';
+import FoodRecipes from '../fooddetails';
 
 const Home = () => {
   const [randomFood, setRandomFood] = useState([]);
@@ -21,6 +30,8 @@ const Home = () => {
   const [areas, setAreas] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const navigation = useNavigation();
+  const [idMeal, setIdMeal] = useState(0);
+  const appBottomSheetRef = React.useRef<AppBottomSheetRef>(null);
 
   const requestRandomFood = async () => {
     const response = await fetch(
@@ -48,7 +59,7 @@ const Home = () => {
       'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
     );
     const data = await response.json();
-    setCategories(data.meals.slice(0, 3));
+    setCategories(data.meals);
   };
 
   const fetchAreas = async () => {
@@ -56,7 +67,7 @@ const Home = () => {
       'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
     );
     const data = await response.json();
-    setAreas(data.meals.slice(0, 3));
+    setAreas(data.meals);
   };
 
   const fetchIngredients = async () => {
@@ -64,171 +75,98 @@ const Home = () => {
       'https://www.themealdb.com/api/json/v1/1/list.php?i=list',
     );
     const data = await response.json();
-    setIngredients(data.meals.slice(0, 3));
+    setIngredients(data.meals);
   };
 
- 
   useEffect(() => {
     fetchCategories();
     fetchAreas();
     fetchIngredients();
   }, []);
 
-  console.log("idMeal", randomFood[0]?.idMeal);
-  
   return (
-    <SafeAreaView style={styles.Header}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{flex: 1}}
-        contentContainerStyle={{flexGrow: 1}}>
-        <View style={styles.container}>
-          <AppButton
-            onPress={() => {
-              navigation.toggleDrawer();
-            }}
-            icon={<BurgerIcon />}
-            style={undefined}
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={'dark-content'} />
+      <View style={styles.header}>
+        <TouchableOpacity
+          activeOpacity={0.75}
+          onPress={() => {
+            navigation.toggleDrawer();
+          }}>
+          <BurgerIcon width={36} height={36} />
+        </TouchableOpacity>
+        <Text style={styles.title}>Home</Text>
+      </View>
+      {randomFood.length == 2 &&
+      categories.length &&
+      areas.length &&
+      ingredients.length ? (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{flex: 1}}
+          contentContainerStyle={{flexGrow: 1}}>
+          {/* <View style={styles.logo}>
+            <Logo width={200} height={150} />
+          </View> */}
+          <View>
+            <Text style={styles.RandomText}>Random Meals</Text>
+          </View>
+          <View style={styles.random}>
+            {randomFood.map((item, index) => (
+              <View style={styles.random1} key={index}>
+                <Image
+                  style={styles.randomImage}
+                  source={{uri: item.strMealThumb}}
+                />
+                <View
+                  style={{
+                    alignItems: 'center',
+                    flex: 1,
+                    marginHorizontal: 10,
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text style={styles.random1text} numberOfLines={3}>
+                    {item.strMeal}
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={0.75}
+                    style={styles.detailsheder}
+                    onPress={() => {
+                      setIdMeal(item.idMeal);
+                      appBottomSheetRef.current?.open();
+                    }}>
+                    <Text style={styles.detalText}>See Details</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+          </View>
+          <Filters
+            title="Categories"
+            itemIndex="c"
+            itemKey="strCategory"
+            item={categories}
           />
-          <View style={styles.containerhader}>
-            <Text style={styles.hader}>Food Recipes</Text>
-          </View>
+          <Filters title="Areas" itemIndex="a" itemKey="strArea" item={areas} />
+          <Filters
+            title="Ingredients"
+            itemIndex="i"
+            itemKey="strIngredient"
+            item={ingredients}
+          />
+        </ScrollView>
+      ) : (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Lottie
+            source={require('../../assets/lottie/loader.json')}
+            autoPlay
+            loop
+          />
         </View>
-        <View style={styles.logo}>
-          <Image source={require('../../assets/images/food.png')} />
-        </View>
-        <View>
-          <Text style={styles.RandomText}>Random Meals</Text>
-        </View>
-        <View style={styles.random}>
-          {randomFood.map((item, index) => (
-            <TouchableOpacity
-              style={styles.random1}
-              key={index}
-              onPress={() => navigation.navigate('FoodRecipes',{idMeal: item.idMeal})}>
-              <Image
-                style={styles.randomImage}
-                source={{uri: item.strMealThumb}}
-              />
-              <Text style={styles.random1text} numberOfLines={3}>
-                {item.strMeal}
-              </Text>
-              <View style={styles.detailsheder}>
-                <Text style={styles.detalText}>See Details</Text>
-                <EllipseIcon height={18} width={18} />
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <View>
-          <View style={styles.categoriheder}>
-            <Text style={styles.catigoriaText}>Categories</Text>
-            <View style={styles.AllButton}>
-              <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
-                <AppButton
-                  icon={<Forwardİcon height={'30'} width={'25'} />}
-                  onPress={() =>
-                    navigation.navigate('Details', {
-                      title: 'Categories',
-                      key: 'c',
-                    })
-                  }
-                  style={undefined}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.blok}>
-            {categories.map((category, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() =>
-                  navigation.navigate('Details', {
-                    title: 'Categories',
-                    key: 'c',
-                  })
-                }>
-                <View style={styles.blok1}>
-                  <Image
-                    source={{
-                      uri: `https://www.themealdb.com/images/category/${category.strCategory}.png`,
-                    }}
-                    style={styles.categoryImage}
-                  />
-                  <Text style={styles.textcategoria}>
-                    {category.strCategory}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View style={styles.categoriheder}>
-            <Text style={styles.catigoriaText}>Area</Text>
-            <View style={styles.AllButton}>
-              <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
-                <AppButton
-                  icon={<Forwardİcon height={'30'} width={'25'} />}
-                  onPress={() =>
-                    navigation.navigate('Details', {title: 'Area', key: 'a'})
-                  }
-                  style={undefined}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.blok}>
-            {areas.map((area, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() =>
-                  navigation.navigate('Details', {title: 'Area', key: 'a'})
-                }>
-                <View style={styles.blok2}>
-                  <Text style={styles.textcategoria2}>{area.strArea}</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View style={styles.categoriheder}>
-            <Text style={styles.catigoriaText}>Ingredients</Text>
-            <View style={styles.AllButton}>
-              <Text style={styles.Alltext}>All</Text>
-              <View style={{justifyContent: 'center'}}>
-                <AppButton
-                  icon={<Forwardİcon height={'30'} width={'25'} />}
-                  onPress={() =>
-                    navigation.navigate('Details', {
-                      title: 'Ingredients',
-                      key: 'i',
-                    })
-                  }
-                  style={undefined}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.blok}>
-            {ingredients.map((ingredient, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() =>
-                  navigation.navigate('Details', {
-                    title: 'Ingredients',
-                    key: 'i',
-                  })
-                }>
-                <View style={styles.blok3}>
-                  <Text style={styles.textcategoria2}>
-                    {ingredient.strIngredient}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-      </ScrollView>
+      )}
+      <AppBottomSheet ref={appBottomSheetRef} contentHeight={140}>
+        <FoodRecipes idMeal={idMeal} />
+      </AppBottomSheet>
     </SafeAreaView>
   );
 };
@@ -236,14 +174,15 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
-    flexDirection: 'row',
-    marginTop: 15,
-  },
-  Header: {
-    flex: 1,
-    backgroundColor: 'rgba(8, 18, 51, 0.54)',
+    backgroundColor: '#F2F2F2',
+    marginBottom: 16,
   },
   hader: {
     fontSize: 34,
@@ -254,23 +193,37 @@ const styles = StyleSheet.create({
   containerhader: {
     marginLeft: 70,
   },
+  title: {
+    color: '#272D2F',
+    textAlign: 'center',
+    marginLeft: 16,
+    fontSize: 30,
+    fontFamily: 'DancingScript-Bold',
+  },
   logo: {
     alignItems: 'center',
     // justifyContent: 'center',
+    marginBottom: 16,
   },
   icon: {
     backgroundColor: 'yellow',
   },
   RandomText: {
-    fontWeight: '800',
-    fontSize: 22,
-    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 36,
+    color: '#272D2F',
+    textAlign: 'center',
+    marginVertical: 16,
+    fontFamily: 'DancingScript-Bold',
   },
   detailsheder: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    marginLeft: 10,
-    flex: 1,
+    backgroundColor: '#272D2F',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 12,
+    marginBottom: 12,
+    width: '100%',
   },
   random: {
     flexDirection: 'row',
@@ -279,27 +232,31 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   random1: {
-    backgroundColor: '#F4E4CD',
     width: 140,
-    height: 240,
-    borderRadius: 20,
-    gap: 10,
-    alignItems: 'center',
+    backgroundColor: '#FFC529',
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    borderTopRightRadius: 140,
+    borderTopLeftRadius: 140,
   },
   randomImage: {
     width: 140,
-    height: 120,
-    borderRadius: 20,
+    height: 140,
+    borderRadius: 120,
+    borderWidth: 6,
+    borderColor: '#F2F2F2',
   },
   random1text: {
-    fontSize: 22,
-    fontWeight: '900',
-    color: 'black',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#272D2F',
+    marginVertical: 16,
   },
   detalText: {
-    fontSize: 13,
-    fontWeight: '400',
-    color: '#000000',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
   },
   catigoriaText: {
     fontSize: 22,

@@ -10,12 +10,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "@gorhom/bottom-sheet": "^4.4.7",
     "@react-native-async-storage/async-storage": "^1.18.1",
     "@react-native-masked-view/masked-view": "^0.2.9",
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "@reduxjs/toolkit": "^1.9.5",
+    "lottie-react-native": "^5.1.6",
     "react": "18.2.0",
     "react-native": "0.71.8",
     "react-native-gesture-handler": "^2.10.1",

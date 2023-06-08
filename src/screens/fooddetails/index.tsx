@@ -1,28 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import {
   Image,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import VectorIcon from '../../assets/icons/back.svg';
-import FavoriteIcon from '../../assets/icons/Favorite.svg';
+import VectorIcon from '../../assets/icons/back-white.svg';
+import HeartIcon from '../../assets/icons/heart-black.svg';
+import HeartOrangeIcon from '../../assets/icons/heart.svg';
 import CaloriesIcon from '../../assets/icons/Calories.svg';
 import BasketIcon from '../../assets/icons/Basket.svg';
 import TimeIcon from '../../assets/icons/time.svg';
-import {useRoute} from '@react-navigation/core';
-import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addFavoriteFood,
+  deleteFavoriteFood,
+} from '../favorites/redux/favoriteSlice';
+import {RootState} from '../../redux/store';
 
-const FoodRecipes = () => {
-  const route = useRoute();
-  const {idMeal} = route.params || {};
-  console.log(route.params);
-
-  const navigation = useNavigation();
+const FoodRecipes = ({idMeal}) => {
   const [meals, setMeals] = useState([]);
+  const dispatch = useDispatch();
+  const {favoriteFoodsId} = useSelector((state: RootState) => state.favorite);
 
   const request = async url => {
     const response = await fetch(url);
@@ -30,109 +32,67 @@ const FoodRecipes = () => {
     return data;
   };
 
-  const sumIngredients = ingredients => {
-    let sum = 0;
-    for (let i = 0; i < ingredients.length; i++) {
-      const ingredient = ingredients[i];
-      if (!isNaN(ingredient)) {
-        sum += parseFloat(ingredient);
-      }
-    }
-    return sum;
-  };
-
   useEffect(() => {
     const fetchRecipeData = async () => {
       try {
         const data = await request(
-          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${route.params.idMeal}`,
+          `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`,
         );
         setMeals(data.meals.slice(0, 1));
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     if (idMeal) {
       fetchRecipeData();
     }
-  }, [route.params.idMeal]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const foodData = await request(
-  //       'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52891',
-  //     );
-  //     setMeals(foodData.meals.slice(0, 1));
-  //   };
-  //   fetchData();
-  // }, []);
-
-  const handleBackPress = () => {
-    navigation.goBack();
-  };
+  }, [idMeal]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={handleBackPress}>
-          <VectorIcon width={28} height={28} />
-        </TouchableOpacity>
-        {meals?.map(item => (
-          <Text style={[styles.recipestext, {flex: 1, textAlign: 'center'}]}>
-            {item.strMeal}
-          </Text>
-        ))}
-        <TouchableOpacity onPress={() => console.log('')}>
-          <FavoriteIcon width={28} height={28} />
-        </TouchableOpacity>
-      </View>
-
-      <View>
-        {meals?.map((item, index) => (
-          <View style={styles.foodheader} key={index}>
-            {/* <Text style={styles.recipestext}>{item.strMeal}</Text> */}
+    <SafeAreaView edges={['bottom']} style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <View>
+          <View style={styles.foodheader}>
             <Image
               source={{
-                uri: item.strMealThumb,
+                uri: meals[0]?.strMealThumb,
               }}
               style={styles.FoodImage}
             />
           </View>
-        ))}
-
-        <View style={styles.button}>
-          <TouchableOpacity onPress={() => console.log('')}>
-            <TimeIcon width={28} height={28} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('')}>
-            <BasketIcon width={28} height={28} />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <CaloriesIcon width={28} height={28} />
-          </TouchableOpacity>
+          <View style={styles.headerContainer}>
+            <Text style={[styles.recipestext, {flex: 1, textAlign: 'center'}]}>
+              {meals[0]?.strMeal}
+            </Text>
+            <TouchableOpacity
+              activeOpacity={0.75}
+              onPress={() => {
+                if (favoriteFoodsId.includes(meals[0].idMeal)) {
+                  dispatch(deleteFavoriteFood({idMeal: meals[0].idMeal}));
+                } else {
+                  dispatch(addFavoriteFood(meals[0]));
+                }
+              }}>
+              {favoriteFoodsId.includes(meals[0]?.idMeal) ? (
+                <HeartOrangeIcon width={36} height={36} />
+              ) : (
+                <HeartIcon width={36} height={36} />
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-
-      {/* Recipe Content */}
-      <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.recipesscreen}>
-          <Image
-            source={require('../../assets/images/line.png')}
-            style={styles.line}
-          />
-
-          {/* Ingredients */}
           <Text style={styles.ingtext}>Ingredients</Text>
-          <View style={styles.ingredientsContainer}>
+          <View style={styles.elementWrap}>
             {meals?.map((item, index) => (
               <View style={styles.foodheader} key={index}>
                 {Object.keys(item).map(key => {
                   if (key.includes('strIngredient') && item[key]) {
                     return (
-                      <Text style={styles.ingredients} key={key}>
-                        {item[key]}
-                      </Text>
+                      <View style={styles.element}>
+                        <Text style={styles.elementText} key={key}>
+                          {item[key]}
+                        </Text>
+                      </View>
                     );
                   }
                   return null;
@@ -140,8 +100,7 @@ const FoodRecipes = () => {
               </View>
             ))}
           </View>
-          {/* Directions */}
-          <Text style={styles.directext}>Directions</Text>
+          <Text style={styles.ingtext}>Directions</Text>
           <View style={styles.directionsContainer}>
             {meals?.map((item, index) => (
               <View style={styles.foodheader} key={index}>
@@ -160,31 +119,32 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerContainer: {
-    width: '95%',
+    paddingHorizontal: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    marginTop: 24,
   },
   foodheader: {
     alignItems: 'center',
-    marginTop: 15,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
   },
   scroll: {
     flexGrow: 1,
   },
   recipestext: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: '#272D2F',
+    fontSize: 34,
+    fontFamily: 'DancingScript-Bold',
   },
   FoodImage: {
-    width: 210,
-    height: 210,
-    borderRadius: 100,
+    width: '100%',
+    height: 300,
+    resizeMode: 'cover',
   },
   line: {
     alignSelf: 'center',
-    marginTop: 20,
   },
   button: {
     flexDirection: 'row',
@@ -193,17 +153,13 @@ const styles = StyleSheet.create({
   },
   recipesscreen: {
     flex: 1,
-    backgroundColor: '#F4E4CD',
-    borderTopEndRadius: 20,
-    borderTopStartRadius: 20,
-    marginTop: 10,
+    paddingHorizontal: 16,
   },
   ingtext: {
-    fontSize: 24,
-    marginTop: 25,
-    fontWeight: 'bold',
     color: '#000000',
-    marginLeft: 20,
+    marginVertical: 24,
+    fontSize: 30,
+    fontFamily: 'DancingScript-Bold',
   },
   ingredientsContainer: {
     paddingHorizontal: 20,
@@ -215,6 +171,22 @@ const styles = StyleSheet.create({
     color: '#000000',
     marginBottom: 5,
   },
+  elementWrap: {
+    flexDirection: 'row',
+  },
+  elementContent: {
+    gap: 10,
+    paddingHorizontal: 16,
+  },
+  element: {
+    borderRadius: 12,
+    padding: 12,
+    backgroundColor: '#FFC529',
+  },
+  elementText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
   directext: {
     fontSize: 24,
     marginTop: 10,
@@ -223,13 +195,12 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   directionsContainer: {
-    paddingHorizontal: 20,
     alignSelf: 'center',
     fontSize: 30,
     paddingVertical: 5,
   },
   directions: {
-    fontSize: 16,
+    fontSize: 18,
     textAlign: 'left',
     color: '#000000',
   },
