@@ -1,5 +1,6 @@
 🍽 Food Recipe App – Yemək Reseptləri Mobil Tətbiqi
-📱 Sehifə: Yemək Detalları (FoodDetails və ya FoodRecipes)
+📱 Səhifə: Yemək Detalları (FoodDetails və ya FoodRecipes)
+
 Bu səhifə istifadəçiyə seçilmiş yeməyin ətraflı məlumatını təqdim edir. TheMealDB API vasitəsilə məlumatları real vaxtda çəkir və aşağıdakı xüsusiyyətləri özündə birləşdirir:
 
 ✨ Əsas Xüsusiyyətlər:
